@@ -4,11 +4,25 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.Scanner;
 
 public class FileIO 
 {
 	BufferedReader bReader = null;
 	String nextLine;
+	Scanner scan;
+	
+	public void pieceMovement(String fileName)
+	{
+		try
+		{
+			
+		}
+		catch(Exception e)
+		{
+			
+		}
+	}
 	
 	public void piecePlacement(String fileName)
 	{
@@ -103,7 +117,9 @@ public class FileIO
 					}
 				}
 			}
-			System.out.println("");
+			scan = new Scanner(System.in);
+			System.out.println("Press Enter to continue..");
+			scan.nextLine();
 		}
 		catch(Exception e)
 		{
@@ -139,5 +155,6 @@ public class FileIO
 		
 		FileIO work = new FileIO();
 		work.piecePlacement(myArgs[0]);
+		work.pieceMovement(myArgs[0]);
 	}
 }

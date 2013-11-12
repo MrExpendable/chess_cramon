@@ -25,7 +25,7 @@ public class FileIO
 				Matcher matcher = newPattern.matcher(nextLine);
 				System.out.println(nextLine);
 				
-				while (matcher.find())
+				while(matcher.find())
 				{
 					System.out.printf("Piece: %s\nColor: %s\nPosition: %s%d", matcher.group(1), matcher.group(2), matcher.group(3));
 				}

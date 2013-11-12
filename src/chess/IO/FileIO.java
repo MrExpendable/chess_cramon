@@ -21,13 +21,12 @@ public class FileIO
 			while(bReader.ready())
 			{
 				nextLine = bReader.readLine();
-				Pattern newPattern = Pattern.compile("(bknpqrBKNPQR)(ld)([a-h][1-8])");
+				Pattern newPattern = Pattern.compile("([BKNPQR])([dl])([a-h][1-8])");
 				Matcher matcher = newPattern.matcher(nextLine);
-				System.out.println(nextLine);
 				
 				while(matcher.find())
 				{
-					System.out.printf("Piece: %s\nColor: %s\nPosition: %s%d", matcher.group(1), matcher.group(2), matcher.group(3));
+					System.out.printf("Piece: %s\nColor: %s\nPosition: %s%n", matcher.group(1), matcher.group(2), matcher.group(3));
 				}
 			}
 			System.out.println("");
@@ -35,7 +34,19 @@ public class FileIO
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			//System.err.println("Error reading file");
+			System.err.println("Error reading file");
+		}
+		finally
+		{
+			//Close the buffered reader stream
+			try 
+			{
+				bReader.close();
+			} 
+			catch (IOException e) 
+			{
+				System.out.println("Couldn't close buffered reader stream");
+			}
 		}
 	}
 	

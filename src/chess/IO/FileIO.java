@@ -12,18 +12,51 @@ public class FileIO
 	String nextLine;
 	Scanner scan;
 	
+	//Checks for piece movement
 	public void pieceMovement(String fileName)
 	{
+		System.out.println("Piece movement");
 		try
 		{
+			//If input invalid, include error message that includes attempted input
+			bReader = new BufferedReader(new FileReader(fileName));
+			nextLine = "";
 			
+			while(bReader.ready())
+			{
+				nextLine = bReader.readLine();
+				Pattern newPattern = Pattern.compile("([a-h][1-8])\\s([a-h][1-8])");
+				Matcher matcher = newPattern.matcher(nextLine);
+				System.out.println(matcher.find());
+				while(matcher.find())
+				{
+					System.out.printf("Moved piece from %s to %s%n", matcher.group(1), matcher.group(2));
+				}
+			}
+			scan = new Scanner(System.in);
+			System.out.println("Press Enter to continue..");
+			scan.nextLine();
 		}
 		catch(Exception e)
 		{
-			
+			e.printStackTrace();
+			System.err.println("Error reading file");
+		}
+		finally
+		{
+			//Close the buffered reader stream
+			try 
+			{
+				bReader.close();
+			} 
+			catch (IOException e) 
+			{
+				System.out.println("Couldn't close buffered reader stream");
+			}
 		}
 	}
 	
+	//Checks that pieces are placed
 	public void piecePlacement(String fileName)
 	{
 		try
@@ -118,8 +151,8 @@ public class FileIO
 				}
 			}
 			scan = new Scanner(System.in);
-			System.out.println("Press Enter to continue..");
-			scan.nextLine();
+			//System.out.println("Press Enter to continue..");
+			//scan.nextLine();
 		}
 		catch(Exception e)
 		{
@@ -146,7 +179,7 @@ public class FileIO
 		
 		if(args.length == 0)
 		{
-			myArgs[0] = "module1_piecePlacement.txt";
+			myArgs[0] = "module1.txt";
 		}
 		else
 		{

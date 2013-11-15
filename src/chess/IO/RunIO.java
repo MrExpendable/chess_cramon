@@ -17,9 +17,6 @@ public class RunIO
 		
 		FileIO work = new FileIO();
 		
-		work.piecePlacement(myArgs[0]);
-		work.pieceMovement(myArgs[0]);
-		work.pieceCapture(myArgs[0]);
-		work.checkCastle(myArgs[0]);
+		work.readFile(myArgs[0]);
 	}
 }

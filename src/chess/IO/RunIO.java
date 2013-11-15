@@ -4,18 +4,22 @@ public class RunIO
 {
 	public static void main(String[] args)
 	{
-		String[] txtList = 
+		String[] myArgs = new String[1];
+		
+		if(args.length == 0)
 		{
-			"module1_piecePlacement",
-			"module1_pieceMovement",
-			"module1_pieceCapture",
-			"module1_castle"
-		};
+			myArgs[0] = "module1";
+		}
+		else
+		{
+			myArgs = args;
+		}
 		
 		FileIO work = new FileIO();
 		
-		work.piecePlacement(txtList[0]);
-		work.pieceMovement(txtList[1]);
-		work.pieceCapture(txtList[2]);
+		work.piecePlacement(myArgs[0]);
+		work.pieceMovement(myArgs[0]);
+		work.pieceCapture(myArgs[0]);
+		work.checkCastle(myArgs[0]);
 	}
 }

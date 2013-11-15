@@ -70,10 +70,6 @@ public class FileIO
 				{
 					System.out.printf("Moved piece from %s to %s and captured piece%n", matcher.group(1), matcher.group(2), matcher.group(2));
 				}
-				else
-				{
-					System.err.println(nextLine + " is invalid input");
-				}
 			}
 			
 			System.out.println("");
@@ -217,6 +213,22 @@ public class FileIO
 	{
 		try
 		{
+			//If input invalid, include error message that includes attempted input
+			bReader = new BufferedReader(new FileReader(fileName));
+			nextLine = "";
+			
+			while(bReader.ready())
+			{
+				nextLine = bReader.readLine();
+				Pattern castle = Pattern.compile("([a-h][18])\\s([a-h][18])\\s([a-h][18])\\s([a-h][18])");
+				Matcher matcher = castle.matcher(nextLine);
+				
+				if(matcher.find())
+				{
+					System.out.printf("Switched rook and king on positions %s and %s%n", matcher.group(1), matcher.group(2));
+				}
+			}
+			System.out.println("");
 		}
 		catch(Exception e)
 		{

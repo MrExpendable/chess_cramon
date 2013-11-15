@@ -4,18 +4,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.Scanner;
 
 public class FileIO 
 {
 	BufferedReader bReader = null;
 	String nextLine;
-	Scanner scan;
 	
 	//Checks for piece movement
 	public void pieceMovement(String fileName)
 	{
-		System.out.println("Piece movement");
 		try
 		{
 			//If input invalid, include error message that includes attempted input
@@ -25,14 +22,61 @@ public class FileIO
 			while(bReader.ready())
 			{
 				nextLine = bReader.readLine();
-				Pattern newPattern = Pattern.compile("([a-h][1-8])\\s([a-h][1-8])");
-				Matcher matcher = newPattern.matcher(nextLine);
+				Pattern movement = Pattern.compile("([a-h][1-8])\\s([a-h][1-8])");
+				Matcher matcher = movement.matcher(nextLine);
 				
 				while(matcher.find())
 				{
 					System.out.printf("Moved piece from %s to %s%n", matcher.group(1), matcher.group(2));
 				}
 			}
+			System.out.println("");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.err.println("Error reading file");
+		}
+		finally
+		{
+			//Close the buffered reader stream
+			try 
+			{
+				bReader.close();
+			} 
+			catch (IOException e) 
+			{
+				System.out.println("Couldn't close buffered reader stream");
+			}
+		}
+	}
+	
+	//Checks for piece capturing
+	public void pieceCapture(String fileName)
+	{
+		try
+		{
+			//If input invalid, include error message that includes attempted input
+			bReader = new BufferedReader(new FileReader(fileName));
+			nextLine = "";
+			
+			while(bReader.ready())
+			{
+				nextLine = bReader.readLine();
+				Pattern capture = Pattern.compile("([a-h][1-8])\\s([a-h][1-8])\\*");
+				Matcher matcher = capture.matcher(nextLine);
+				
+				if(matcher.find())
+				{
+					System.out.printf("Moved piece from %s to %s and captured piece%n", matcher.group(1), matcher.group(2), matcher.group(2));
+				}
+				else
+				{
+					System.err.println(nextLine + " is invalid input");
+				}
+			}
+			
+			System.out.println("");
 		}
 		catch(Exception e)
 		{
@@ -65,8 +109,8 @@ public class FileIO
 			while(bReader.ready())
 			{
 				nextLine = bReader.readLine();
-				Pattern newPattern = Pattern.compile("([BKNPQR][dl])([a-h][1-8])");
-				Matcher matcher = newPattern.matcher(nextLine);
+				Pattern placement = Pattern.compile("([BKNPQR][dl])([a-h][1-8])");
+				Matcher matcher = placement.matcher(nextLine);
 				
 				while(matcher.find())
 				{
@@ -106,7 +150,7 @@ public class FileIO
 						}
 						else if(pieceType.contains("d"))
 						{
-							System.out.println("Dark knight(lol) placed at: " + position);
+							System.out.println("Batman placed at: " + position);
 						}
 					}
 					//Queen
@@ -147,6 +191,7 @@ public class FileIO
 					}
 				}
 			}
+			System.out.println("");
 		}
 		catch(Exception e)
 		{
@@ -167,21 +212,28 @@ public class FileIO
 		}
 	}
 	
-	public static void main(String[] args)
+	//Checks for castling
+	public void checkCastle(String fileName)
 	{
-		String[] myArgs = new String[1];
-		
-		if(args.length == 0)
+		try
 		{
-			myArgs[0] = "module1.txt";
 		}
-		else
+		catch(Exception e)
 		{
-			myArgs = args;
+			e.printStackTrace();
+			System.err.println("Error reading file");
 		}
-		
-		FileIO work = new FileIO();
-		work.piecePlacement(myArgs[0]);
-		work.pieceMovement(myArgs[0]);
+		finally
+		{
+			//Close the buffered reader stream
+			try 
+			{
+				bReader.close();
+			} 
+			catch (IOException e) 
+			{
+				System.out.println("Couldn't close buffered reader stream");
+			}
+		}
 	}
 }

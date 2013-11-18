@@ -2,6 +2,7 @@ package chess.IO;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -11,15 +12,23 @@ public class FileIO
 	
 	public void readFile(String fileName)
 	{
+		ArrayList<String> fileContents = new ArrayList<>();
 		try
 		{
 			FileParser parser = new FileParser();
 			bReader = new BufferedReader(new FileReader(fileName));
 			
-			parser.pieceCapture(bReader);
-			parser.pieceMovement(bReader);
-			parser.piecePlacement(bReader);
-			parser.checkCastle(bReader);
+			while(bReader.ready())
+			{
+				String nextLine = bReader.readLine();
+				
+				fileContents.add(nextLine);
+			}
+			
+			parser.pieceCapture(fileContents);
+			parser.pieceMovement(fileContents);
+			parser.piecePlacement(fileContents);
+			parser.checkCastle(fileContents);
 		}
 		catch(IOException e)
 		{

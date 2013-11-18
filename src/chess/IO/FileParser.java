@@ -13,6 +13,7 @@ public class FileParser
 	//Checks for piece movement
 	public void pieceMovement(BufferedReader reader)
 	{
+		System.out.println("Piece movement\n");
 		try
 		{
 			//If input invalid, include error message that includes attempted input
@@ -41,7 +42,7 @@ public class FileParser
 	//Checks for piece capturing
 	public void pieceCapture(BufferedReader reader)
 	{
-		System.out.println("pieceCapture");
+		System.out.println("Piece capture\n");
 		try
 		{
 			//If input invalid, include error message that includes attempted input
@@ -71,6 +72,7 @@ public class FileParser
 	//Checks that pieces are placed
 	public void piecePlacement(BufferedReader reader)
 	{
+		System.out.println("Piece placement\n");
 		try
 		{
 			//If input invalid, include error message that includes attempted input
@@ -173,6 +175,7 @@ public class FileParser
 	//Checks for castling
 	public void checkCastle(BufferedReader reader)
 	{
+		System.out.println("Check castle\n");
 		try
 		{
 			//If input invalid, include error message that includes attempted input

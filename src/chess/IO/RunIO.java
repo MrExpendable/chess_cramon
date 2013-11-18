@@ -1,5 +1,7 @@
 package chess.IO;
 
+import java.util.ArrayList;
+
 public class RunIO 
 {
 	public static void main(String[] args)
@@ -16,7 +18,13 @@ public class RunIO
 		}
 		
 		FileIO work = new FileIO();
+		FileParser parser = new FileParser();
 		
-		work.readFile(myArgs[0]);
+		ArrayList<String> fileContents = work.readFile(myArgs[0]);
+		
+		parser.pieceCapture(fileContents);
+		parser.pieceMovement(fileContents);
+		parser.piecePlacement(fileContents);
+		parser.checkCastle(fileContents);
 	}
 }

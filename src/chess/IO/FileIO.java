@@ -10,25 +10,19 @@ public class FileIO
 {
 	BufferedReader bReader = null;
 	
-	public void readFile(String fileName)
+	public ArrayList<String> readFile(String fileName)
 	{
-		ArrayList<String> fileContents = new ArrayList<>();
+		ArrayList<String> file = new ArrayList<>();
 		try
 		{
-			FileParser parser = new FileParser();
 			bReader = new BufferedReader(new FileReader(fileName));
 			
 			while(bReader.ready())
 			{
 				String nextLine = bReader.readLine();
 				
-				fileContents.add(nextLine);
+				file.add(nextLine);
 			}
-			
-			parser.pieceCapture(fileContents);
-			parser.pieceMovement(fileContents);
-			parser.piecePlacement(fileContents);
-			parser.checkCastle(fileContents);
 		}
 		catch(IOException e)
 		{
@@ -46,5 +40,7 @@ public class FileIO
 				System.err.println("Couldn't close buffered reader stream");
 			}
 		}
+		
+		return file;
 	}
 }

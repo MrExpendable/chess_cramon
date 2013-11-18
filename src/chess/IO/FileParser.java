@@ -15,7 +15,7 @@ public class FileParser
 			Pattern movement = Pattern.compile("(?<initPos>[a-h][1-8])\\s(?<finalPos>[a-h][1-8])");
 			Matcher matcher = movement.matcher(toMatch);
 			
-			while(matcher.find())
+			if(matcher.find())
 			{
 				System.out.printf("Moved piece from %s to %s%n", matcher.group("initPos"), matcher.group("finalPos"));
 			}
@@ -50,83 +50,45 @@ public class FileParser
 			Pattern placement = Pattern.compile("(?<piece>[BKNPQR][dl])(?<position>[a-h][1-8])");
 			Matcher matcher = placement.matcher(toMatch);
 			
-			while(matcher.find())
+			if(matcher.find())
 			{
 				String pieceType = matcher.group("piece");
 				String position = matcher.group("position");
+				String pieceColor = (pieceType.contains("l") ? "light" : "dark");
+				String pieceName = null;
 				
 				//Bishop
 				if(pieceType.contains("B"))
 				{
-					if(pieceType.contains("l"))
-					{
-						System.out.println("Light bishop placed at: " + position);
-					}
-					else if(pieceType.contains("d"))
-					{
-						System.out.println("Dark bishop placed at: " + position);
-					}
+					pieceName = "bishop";
 				}
 				//King
 				else if(pieceType.contains("K"))
 				{
-					if(pieceType.contains("l"))
-					{
-						System.out.println("Light king placed at: " + position);
-					}
-					else if(pieceType.contains("d"))
-					{
-						System.out.println("Dark king placed at: " + position);
-					}
+					pieceName = "king";
 				}
 				//Knight
 				else if(pieceType.contains("N"))
 				{
-					if(pieceType.contains("l"))
-					{
-						System.out.println("Light knight placed at: " + position);
-					}
-					else if(pieceType.contains("d"))
-					{
-						System.out.println("Batman placed at: " + position);
-					}
+					pieceName = "knight";
 				}
 				//Queen
 				else if(pieceType.contains("Q"))
 				{
-					if(pieceType.contains("l"))
-					{
-						System.out.println("Light queen placed at: " + position);
-					}
-					else if(pieceType.contains("d"))
-					{
-						System.out.println("Dark queen placed at: " + position);
-					}
+					pieceName = "queen";
 				}
 				//Rook
 				else if(pieceType.contains("R"))
 				{
-					if(pieceType.contains("l"))
-					{
-						System.out.println("Light rook placed at: " + position);
-					}
-					else if(pieceType.contains("d"))
-					{
-						System.out.println("Dark rook placed at: " + position);
-					}
+					pieceName = "rook";
 				}
 				//Pawn
 				else if(pieceType.contains("P"))
 				{
-					if(pieceType.contains("l"))
-					{
-						System.out.println("Light pawn placed at: " + position);
-					}
-					else if(pieceType.contains("d"))
-					{
-						System.out.println("Dark pawn placed at: " + position);
-					}
+					pieceName = "pawn";
 				}
+				
+				System.out.printf("%s %s placed at: %s%n", pieceColor, pieceName, position);
 			}
 		}
 		System.out.println("");
@@ -138,17 +100,20 @@ public class FileParser
 		System.out.println("Check castle\n");
 		for(String toMatch : toRead)
 		{
-			Pattern castle = Pattern.compile("(?<piece1InitPos>[a-h][18])\\s(?<piece1FinalPos>[a-h][18])\\s(?<piece2InitPos>[a-h][18])\\s(?<piece2FinalPos>[a-h][18])");
+			//(?<piece1InitPos>[a-h][18])\\s(?<piece1FinalPos>[a-h][18])\\s(?<piece2InitPos>[a-h][18])\\s(?<piece2FinalPos>[a-h][18])
+			
+			Pattern castle = Pattern.compile("([a-h][18])\\s([a-h][18])\\s([a-h][18])\\s([a-h][18])");
 			Matcher matcher = castle.matcher(toMatch);
 			
-			String piece1InitPos = matcher.group("piece1InitPos");
-			String piece1FinalPos = matcher.group("piece1FinalPos");
-			String piece2InitPos = matcher.group("piece2InitPos");
-			String piece2FinalPos = matcher.group("piece2FinalPos");
+			//DOESN'T WORK
+//			String piece1InitPos = matcher.group("piece1Init");
+//			String piece1FinalPos = matcher.group("piece1FinalPos");
+//			String piece2InitPos = matcher.group("piece2InitPos");
+//			String piece2FinalPos = matcher.group("piece2FinalPos");
 			
 			if(matcher.find())
 			{
-				System.out.printf("Switched rook and king on positions %s and %s, and positions %s and %s%n", piece1InitPos, piece1FinalPos, piece2InitPos, piece2FinalPos);
+				System.out.printf("Switched rook and king on positions %s and %s, and positions %s and %s%n", matcher.group(1), matcher.group(2), matcher.group(3), matcher.group(4));
 			}
 		}
 		System.out.println("");

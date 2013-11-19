@@ -18,9 +18,15 @@ public class Chessboard
 	/*
 	 * 
 	 */
-	public void fillBoard(String column, String row)
+	public void fillBoard(String pieceColor, String pieceType, String position)
 	{
+		char char1 = position.charAt(0);
+		char char2 = position.charAt(1);
+		int column = Character.getNumericValue(char1) - 10;
+		int row = Character.getNumericValue(char2) - 1;
 		
+		//board[column][row] = 
+		System.out.printf("Column: %s%nRow: %s%n", column, row);
 	}
 	
 	/*

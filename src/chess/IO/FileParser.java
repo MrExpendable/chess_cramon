@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import chess.board.Chessboard;
+
 public class FileParser
 {
 	//Checks for piece movement
@@ -45,6 +47,9 @@ public class FileParser
 	public void piecePlacement(ArrayList<String> toRead)
 	{
 		System.out.println("Piece placement\n");
+		
+		Chessboard board = new Chessboard();
+		
 		for(String toMatch : toRead)
 		{
 			Pattern placement = Pattern.compile("(?<piece>[BKNPQR][dl])(?<position>[a-h][1-8])");
@@ -54,44 +59,47 @@ public class FileParser
 			{
 				String pieceType = matcher.group("piece");
 				String position = matcher.group("position");
-				String pieceColor = (pieceType.contains("l") ? "light" : "dark");
+				String pieceColor = (pieceType.contains("l") ? "l" : "d");
 				String pieceName = null;
 				
 				//Bishop
 				if(pieceType.contains("B"))
 				{
-					pieceName = "bishop";
+					pieceName = "B";
 				}
 				//King
 				else if(pieceType.contains("K"))
 				{
-					pieceName = "king";
+					pieceName = "K";
 				}
 				//Knight
 				else if(pieceType.contains("N"))
 				{
-					pieceName = "knight";
+					pieceName = "N";
 				}
 				//Queen
 				else if(pieceType.contains("Q"))
 				{
-					pieceName = "queen";
+					pieceName = "Q";
 				}
 				//Rook
 				else if(pieceType.contains("R"))
 				{
-					pieceName = "rook";
+					pieceName = "R";
 				}
 				//Pawn
 				else if(pieceType.contains("P"))
 				{
-					pieceName = "pawn";
+					pieceName = "P";
 				}
 				
 				System.out.printf("%s %s placed at: %s%n", pieceColor, pieceName, position);
+				
+				board.fillBoard(pieceColor, pieceName, position);
 			}
 		}
 		System.out.println("");
+		board.printBoard();
 	}
 	
 	//Checks for castling

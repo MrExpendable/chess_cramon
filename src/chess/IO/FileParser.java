@@ -100,16 +100,8 @@ public class FileParser
 		System.out.println("Check castle\n");
 		for(String toMatch : toRead)
 		{
-			//(?<piece1InitPos>[a-h][18])\\s(?<piece1FinalPos>[a-h][18])\\s(?<piece2InitPos>[a-h][18])\\s(?<piece2FinalPos>[a-h][18])
-			
 			Pattern castle = Pattern.compile("([a-h][18])\\s([a-h][18])\\s([a-h][18])\\s([a-h][18])");
 			Matcher matcher = castle.matcher(toMatch);
-			
-			//DOESN'T WORK
-//			String piece1InitPos = matcher.group("piece1Init");
-//			String piece1FinalPos = matcher.group("piece1FinalPos");
-//			String piece2InitPos = matcher.group("piece2InitPos");
-//			String piece2FinalPos = matcher.group("piece2FinalPos");
 			
 			if(matcher.find())
 			{

@@ -1,4 +1,5 @@
 package chess.IO;
+import chess.board.Chessboard;
 
 import java.util.ArrayList;
 
@@ -26,5 +27,8 @@ public class RunIO
 		parser.pieceMovement(fileContents);
 		parser.piecePlacement(fileContents);
 		parser.checkCastle(fileContents);
+		
+		Chessboard board = new Chessboard();
+		board.printBoard();
 	}
 }

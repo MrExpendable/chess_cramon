@@ -1,5 +1,5 @@
 package chess.IO;
-
+import chess.board.Chessboard;
 import java.util.ArrayList;
 
 public class RunIO 
@@ -22,9 +22,10 @@ public class RunIO
 		
 		ArrayList<String> fileContents = work.readFile(myArgs[0]);
 		
+		
 //		parser.pieceCapture(fileContents);
 //		parser.pieceMovement(fileContents);
-		parser.piecePlacement(fileContents);
+//		parser.piecePlacement(fileContents);
 //		parser.checkCastle(fileContents);
 	}
 }

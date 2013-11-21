@@ -1,32 +1,28 @@
 package chess.pieces;
 
-public class Piece 
+public abstract class Piece 
 {
 	String color;
-	String type;
+	String name;
 	
-	private void setColor(String set)
+	public Piece(String c)
 	{
-		color = set;
+		color = c;
 	}
-	
-//	private void setType(String set)
-//	{
-//		type = set;
-//	}
 	
 	public String getColor()
 	{
 		return color;
 	}
 	
-	public String getType()
+	public String getName()
 	{
-		return type;
+		return name;
 	}
 	
-	public String checkType()
+	@Override
+	public String toString()
 	{
-		return color + type;
+		return color + name;
 	}
 }

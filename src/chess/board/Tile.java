@@ -5,7 +5,7 @@ public class Tile
 {
 	Piece piece;
 	
-	public void setPiece(Piece p)
+	public Tile(Piece p)
 	{
 		piece = p;
 	}

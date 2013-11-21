@@ -21,11 +21,8 @@ public class RunIO
 		FileParser parser = new FileParser();
 		
 		ArrayList<String> fileContents = work.readFile(myArgs[0]);
+		parser.piecePlacement(fileContents);
 		
-		
-//		parser.pieceCapture(fileContents);
-//		parser.pieceMovement(fileContents);
-//		parser.piecePlacement(fileContents);
-//		parser.checkCastle(fileContents);
+		//Chessboard board = new Chessboard();
 	}
 }

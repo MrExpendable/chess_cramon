@@ -1,5 +1,7 @@
 package chess.board;
 
+import chess.pieces.*;
+
 public class Chessboard 
 {
 	//Chessboard will be a 2D array of Tiles
@@ -25,8 +27,38 @@ public class Chessboard
 		int column = Character.getNumericValue(char1) - 10;
 		int row = Character.getNumericValue(char2) - 1;
 		
-		//board[column][row] = 
-		System.out.printf("Column: %s%nRow: %s%n", column, row);
+		//Bishop
+		if(pieceType.contains("B"))
+		{
+			board[column][row] = new Tile(new Bishop(pieceColor));
+		}
+		//King
+		else if(pieceType.contains("K"))
+		{
+			board[column][row] = new Tile(new King(pieceColor));
+		}
+		//Knight
+		else if(pieceType.contains("N"))
+		{
+			board[column][row] = new Tile(new Knight(pieceColor));
+		}
+		//Queen
+		else if(pieceType.contains("Q"))
+		{
+			board[column][row] = new Tile(new Queen(pieceColor));
+		}
+		//Rook
+		else if(pieceType.contains("R"))
+		{
+			board[column][row] = new Tile(new Rook(pieceColor));
+		}
+		//Pawn
+		else if(pieceType.contains("P"))
+		{
+			board[column][row] = new Tile(new Pawn(pieceColor));
+		}
+		
+		//System.out.printf("Column: %s%nRow: %s%n", column, row);
 	}
 	
 	/*
@@ -37,13 +69,14 @@ public class Chessboard
 		for(int i = 0; i < BOARD_LENGTH; i++)
 		{
 			System.out.print(BOARD_LENGTH - i + "   ");
+			
 			for(int j = 0; j < BOARD_WIDTH; j++)
 			{
 				//If no piece here, print -, otherwise, print out piece type
 				//Example: Print rook as R, print bishop as B, etc.
 				if(board[i][j] == null)
 				{
-					System.out.print("- ");
+					System.out.print("-  ");
 				}
 				else
 				{
@@ -52,6 +85,6 @@ public class Chessboard
 			}
 			System.out.println("");
 		}
-		System.out.println("    a b c d e f g h");
+		System.out.println("    a  b  c  d  e  f  g  h");
 	}
 }

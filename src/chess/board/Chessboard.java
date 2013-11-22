@@ -30,32 +30,32 @@ public class Chessboard
 		//Bishop
 		if(pieceType.contains("B"))
 		{
-			board[column][row] = new Tile(new Bishop(pieceColor));
+			board[row][column] = new Tile(new Bishop(pieceColor));
 		}
 		//King
 		else if(pieceType.contains("K"))
 		{
-			board[column][row] = new Tile(new King(pieceColor));
+			board[row][column] = new Tile(new King(pieceColor));
 		}
 		//Knight
 		else if(pieceType.contains("N"))
 		{
-			board[column][row] = new Tile(new Knight(pieceColor));
+			board[row][column] = new Tile(new Knight(pieceColor));
 		}
 		//Queen
 		else if(pieceType.contains("Q"))
 		{
-			board[column][row] = new Tile(new Queen(pieceColor));
+			board[row][column] = new Tile(new Queen(pieceColor));
 		}
 		//Rook
 		else if(pieceType.contains("R"))
 		{
-			board[column][row] = new Tile(new Rook(pieceColor));
+			board[row][column] = new Tile(new Rook(pieceColor));
 		}
 		//Pawn
 		else if(pieceType.contains("P"))
 		{
-			board[column][row] = new Tile(new Pawn(pieceColor));
+			board[row][column] = new Tile(new Pawn(pieceColor));
 		}
 		
 		//System.out.printf("Column: %s%nRow: %s%n", column, row);
@@ -68,7 +68,8 @@ public class Chessboard
 	{
 		for(int i = 0; i < BOARD_LENGTH; i++)
 		{
-			System.out.print(BOARD_LENGTH - i + "   ");
+			//System.out.print(BOARD_LENGTH - i + "   ");
+			System.out.print(i + 1 + "   ");
 			
 			for(int j = 0; j < BOARD_WIDTH; j++)
 			{

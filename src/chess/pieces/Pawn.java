@@ -3,13 +3,13 @@ package chess.pieces;
 public class Pawn extends Piece
 {
 	String name;
-	String color;
+//	String color;
 	
 	//Make sure that color is being set!
 	public Pawn(String c)
 	{
 		super(c);
-		color = c;
+//		color = c;
 		name = "P";
 	}
 	

@@ -3,12 +3,12 @@ package chess.pieces;
 public class King extends Piece
 {
 	String name;
-	String color;
+	//String color;
 	
 	public King(String c)
 	{
 		super(c);
-		color = c;
+		//color = c;
 		name = "K";
 	}
 	

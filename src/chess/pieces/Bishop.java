@@ -3,12 +3,12 @@ package chess.pieces;
 public class Bishop extends Piece
 {
 	String name;
-	String color;
+	//String color;
 	
 	public Bishop(String c)
 	{
 		super(c);
-		color = c;
+		//color = c;
 		name = "B";
 	}
 	

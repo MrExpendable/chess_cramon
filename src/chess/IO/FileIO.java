@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class FileIO 
 {
 	InputStream input;
+	String nextLine;
 	
 	public ArrayList<String> readFile(String fileName)
 	{
@@ -22,8 +23,9 @@ public class FileIO
 			{
 				while(bReader.ready())
 				{
-					String nextLine = bReader.readLine();
+					nextLine = bReader.readLine();
 					
+					//CALL THE MATCHING METHODS DIRECTLY FROM HERE
 					file.add(nextLine);
 				}
 			}

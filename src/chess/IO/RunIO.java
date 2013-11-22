@@ -22,7 +22,5 @@ public class RunIO
 		
 		ArrayList<String> fileContents = work.readFile(myArgs[0]);
 		parser.piecePlacement(fileContents);
-		
-		//Chessboard board = new Chessboard();
 	}
 }

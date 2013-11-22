@@ -3,12 +3,12 @@ package chess.pieces;
 public class Knight extends Piece
 {
 	String name;
-	String color;
+//	String color;
 	
 	public Knight(String c)
 	{
 		super(c);
-		color = c;
+//		color = c;
 		name = "N";
 	}
 	

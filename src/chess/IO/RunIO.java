@@ -1,11 +1,13 @@
 package chess.IO;
 import chess.board.Chessboard;
-import java.util.ArrayList;
 
 public class RunIO 
 {
 	public static void main(String[] args)
 	{
+		FileIO work = new FileIO();
+		Chessboard board = new Chessboard();
+		
 		String[] myArgs = new String[1];
 		
 		if(args.length == 0)
@@ -17,10 +19,7 @@ public class RunIO
 			myArgs = args;
 		}
 		
-		FileIO work = new FileIO();
-		FileParser parser = new FileParser();
-		
-		ArrayList<String> fileContents = work.readFile(myArgs[0]);
-		parser.piecePlacement(fileContents);
+		work.readFile(board, myArgs[0]);
+		board.printBoard();
 	}
 }

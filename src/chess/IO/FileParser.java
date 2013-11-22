@@ -1,10 +1,8 @@
 package chess.IO;
-
+import chess.board.Chessboard;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import chess.board.Chessboard;
 
 public class FileParser
 {
@@ -44,62 +42,24 @@ public class FileParser
 	}
 	
 	//Checks that pieces are placed
-	public void piecePlacement(ArrayList<String> toRead)
+	public void piecePlacement(Chessboard boardToFill, String toRead)
 	{
-		System.out.println("Piece placement\n");
+		//System.out.println("Piece placement\n");
 		
-		Chessboard board = new Chessboard();
+		Pattern placement = Pattern.compile("(?<piece>[BKNPQR][dl])(?<position>[a-h][1-8])");
+		Matcher matcher = placement.matcher(toRead);
 		
-		for(String toMatch : toRead)
+		if(matcher.find())
 		{
-			Pattern placement = Pattern.compile("(?<piece>[BKNPQR][dl])(?<position>[a-h][1-8])");
-			Matcher matcher = placement.matcher(toMatch);
+			String pieceType = matcher.group("piece");
+			String position = matcher.group("position");
+			String pieceColor = (pieceType.contains("l") ? "l" : "d");
+			String pieceName = pieceType.substring(0, 1);
 			
-			if(matcher.find())
-			{
-				String pieceType = matcher.group("piece");
-				String position = matcher.group("position");
-				String pieceColor = (pieceType.contains("l") ? "l" : "d");
-				String pieceName = null;
-				
-				//Bishop
-				if(pieceType.contains("B"))
-				{
-					pieceName = "B";
-				}
-				//King
-				else if(pieceType.contains("K"))
-				{
-					pieceName = "K";
-				}
-				//Knight
-				else if(pieceType.contains("N"))
-				{
-					pieceName = "N";
-				}
-				//Queen
-				else if(pieceType.contains("Q"))
-				{
-					pieceName = "Q";
-				}
-				//Rook
-				else if(pieceType.contains("R"))
-				{
-					pieceName = "R";
-				}
-				//Pawn
-				else if(pieceType.contains("P"))
-				{
-					pieceName = "P";
-				}
-				
-				System.out.printf("%s %s placed at: %s%n", pieceColor, pieceName, position);
-				
-				board.fillBoard(pieceColor, pieceName, position);
-			}
+			//System.out.printf("%s %s placed at: %s%n", pieceColor, pieceName, position);
+			
+			boardToFill.fillBoard(pieceColor, pieceName, position);
 		}
-		System.out.println("");
-		board.printBoard();
 	}
 	
 	//Checks for castling

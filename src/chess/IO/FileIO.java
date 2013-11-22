@@ -1,19 +1,21 @@
 package chess.IO;
+import chess.board.Chessboard;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class FileIO 
 {
+	//InputStream is used to read the file
+	//BufferedReader is used to read the stream and translate it to a readable format
+	FileParser parser;
 	InputStream input;
 	String nextLine;
 	
-	public ArrayList<String> readFile(String fileName)
+	public void readFile(Chessboard boardToFill, String fileName)
 	{
-		ArrayList<String> file = new ArrayList<>();
+		parser = new FileParser();
 		try
 		{
 			input = getClass().getResourceAsStream("/resources/module1");
@@ -25,8 +27,8 @@ public class FileIO
 				{
 					nextLine = bReader.readLine();
 					
+					parser.piecePlacement(boardToFill, nextLine);
 					//CALL THE MATCHING METHODS DIRECTLY FROM HERE
-					file.add(nextLine);
 				}
 			}
 			catch(IOException e) 
@@ -52,6 +54,7 @@ public class FileIO
 		}
 		finally
 		{
+			//Close the InputStream
 			try
 			{
 				input.close();
@@ -61,7 +64,5 @@ public class FileIO
 				System.err.println("Couldn't close input stream");
 			}
 		}
-		
-		return file;
 	}
 }

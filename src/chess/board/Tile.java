@@ -9,7 +9,7 @@ import chess.pieces.Rook;
 
 public class Tile 
 {
-	Piece piece;
+	private Piece piece;
 	
 	public Tile(Piece p)
 	{
@@ -55,7 +55,7 @@ public class Tile
 		return piece;
 	}
 	
-	public String checkName()
+	public String getPieceName()
 	{
 		return piece.toString();
 	}

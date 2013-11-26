@@ -82,7 +82,7 @@ public class Chessboard
 				}
 				else
 				{
-					System.out.print(board[i][j].checkName() + " ");
+					System.out.print(board[i][j].getPieceName() + " ");
 				}
 			}
 			System.out.println("");

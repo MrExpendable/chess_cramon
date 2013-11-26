@@ -2,14 +2,19 @@ package chess.pieces;
 
 public class Bishop extends Piece
 {
-	String name;
-	//String color;
-	
-	public Bishop(String c)
+	public Bishop(String c, String n)
 	{
-		super(c);
-		//color = c;
-		name = "B";
+		super(c, n);
+	}
+	
+	public String getColor()
+	{
+		return color;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	@Override

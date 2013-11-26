@@ -27,36 +27,37 @@ public class Chessboard
 		int column = Character.getNumericValue(char1) - 10;
 		int row = Character.getNumericValue(char2) - 1;
 		
-		//Bishop
-		if(pieceType.contains("B"))
-		{
-			board[row][column] = new Tile(new Bishop(pieceColor));
-		}
-		//King
-		else if(pieceType.contains("K"))
-		{
-			board[row][column] = new Tile(new King(pieceColor));
-		}
-		//Knight
-		else if(pieceType.contains("N"))
-		{
-			board[row][column] = new Tile(new Knight(pieceColor));
-		}
-		//Queen
-		else if(pieceType.contains("Q"))
-		{
-			board[row][column] = new Tile(new Queen(pieceColor));
-		}
-		//Rook
-		else if(pieceType.contains("R"))
-		{
-			board[row][column] = new Tile(new Rook(pieceColor));
-		}
-		//Pawn
-		else if(pieceType.contains("P"))
-		{
-			board[row][column] = new Tile(new Pawn(pieceColor));
-		}
+		board[row][column].setPiece(pieceType, pieceColor);
+//		//Bishop
+//		if(pieceType.contains("B"))
+//		{
+//			board[row][column] = new Tile(new Bishop(pieceColor));
+//		}
+//		//King
+//		else if(pieceType.contains("K"))
+//		{
+//			board[row][column] = new Tile(new King(pieceColor));
+//		}
+//		//Knight
+//		else if(pieceType.contains("N"))
+//		{
+//			board[row][column] = new Tile(new Knight(pieceColor));
+//		}
+//		//Queen
+//		else if(pieceType.contains("Q"))
+//		{
+//			board[row][column] = new Tile(new Queen(pieceColor));
+//		}
+//		//Rook
+//		else if(pieceType.contains("R"))
+//		{
+//			board[row][column] = new Tile(new Rook(pieceColor));
+//		}
+//		//Pawn
+//		else if(pieceType.contains("P"))
+//		{
+//			board[row][column] = new Tile(new Pawn(pieceColor));
+//		}
 		
 		//System.out.printf("Column: %s%nRow: %s%n", column, row);
 	}

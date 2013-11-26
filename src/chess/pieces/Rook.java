@@ -2,12 +2,19 @@ package chess.pieces;
 
 public class Rook extends Piece
 {
-	String name;
-	
-	public Rook(String c)
+	public Rook(String c, String n)
 	{
-		super(c);
-		name = "R";
+		super(c, n);
+	}
+	
+	public String getColor()
+	{
+		return color;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	@Override

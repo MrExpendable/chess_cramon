@@ -2,14 +2,19 @@ package chess.pieces;
 
 public class Queen extends Piece
 {
-	String name;
-//	String color;
-	
-	public Queen(String c)
+	public Queen(String c, String n)
 	{
-		super(c);
-//		color = c;
-		name = "Q";
+		super(c, n);
+	}
+	
+	public String getColor()
+	{
+		return color;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	@Override

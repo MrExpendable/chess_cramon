@@ -5,9 +5,10 @@ public abstract class Piece
 	String color;
 	String name;
 	
-	public Piece(String c)
+	public Piece(String c, String n)
 	{
 		color = c;
+		name = n;
 	}
 	
 	public String getColor()

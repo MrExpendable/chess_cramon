@@ -2,14 +2,19 @@ package chess.pieces;
 
 public class Knight extends Piece
 {
-	String name;
-//	String color;
-	
-	public Knight(String c)
+	public Knight(String c, String n)
 	{
-		super(c);
-//		color = c;
-		name = "N";
+		super(c, n);
+	}
+	
+	public String getColor()
+	{
+		return color;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	@Override

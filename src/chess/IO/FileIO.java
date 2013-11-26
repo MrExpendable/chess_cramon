@@ -13,12 +13,12 @@ public class FileIO
 	InputStream input;
 	String nextLine;
 	
-	public void readFile(Chessboard boardToFill, String fileName)
+	public void readFile(Chessboard boardToFill, String filePath)
 	{
 		parser = new FileParser();
 		try
 		{
-			input = getClass().getResourceAsStream("/resources/module1");
+			input = getClass().getResourceAsStream(filePath);
 			BufferedReader bReader = new BufferedReader(new InputStreamReader(input));
 			
 			try 
@@ -28,7 +28,6 @@ public class FileIO
 					nextLine = bReader.readLine();
 					
 					parser.piecePlacement(boardToFill, nextLine);
-					//CALL THE MATCHING METHODS DIRECTLY FROM HERE
 				}
 			}
 			catch(IOException e) 

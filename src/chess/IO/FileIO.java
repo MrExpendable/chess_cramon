@@ -14,7 +14,7 @@ public class FileIO
 	private InputStream input;
 	String nextLine;
 	
-	public void readFile(Chessboard boardToFill, String filePath)
+	public void readFile(Chessboard board, String filePath)
 	{
 		parser = new FileParser();
 		try
@@ -23,11 +23,11 @@ public class FileIO
 			BufferedReader bReader = new BufferedReader(new InputStreamReader(input));
 			try 
 			{
-				System.out.println("Get inside this try catch");
 				while(bReader.ready())
 				{
 					nextLine = bReader.readLine();
-					parser.piecePlacement(boardToFill, nextLine);
+					parser.pieceMovement(board, nextLine);
+					//parser.piecePlacement(boardToFill, nextLine);
 				}
 			}
 			catch(IOException e) 

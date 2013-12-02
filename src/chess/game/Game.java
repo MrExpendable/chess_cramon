@@ -6,17 +6,19 @@ public class Game
 {
 	private Chessboard board;
 	
+	public Game()
+	{
+		board = new Chessboard();
+	}
+	
 	public void startGame(String filePath)
 	{
 		FileIO fileRead = new FileIO();
-		board = new Chessboard();
 		
-		//fileRead.printPath();
-		
-		//making sure that command line arguments are correct
-		System.out.println(filePath);
+		//board.fillPawns();
+		board.fillSpecialPieces();
+		board.printBoard();
 		
 		fileRead.readFile(board, filePath);
-		board.printBoard();
 	}
 }

@@ -12,37 +12,37 @@ public class Tile
 		isVacant = true;
 	}
 	
-	public void setPiece(String pieceName, String pieceColor)
+	public void setPiece(String pieceName, boolean isPieceWhite)
 	{
 		//Bishop
 		if(pieceName.contains("B"))
 		{
-			piece = new Bishop(pieceColor, pieceName);
+			piece = new Bishop(pieceName, isPieceWhite);
 		}
 		//King
 		else if(pieceName.contains("K"))
 		{
-			piece = new King(pieceColor, pieceName);
+			piece = new King(pieceName, isPieceWhite);
 		}
 		//Knight
 		else if(pieceName.contains("N"))
 		{
-			piece = new Knight(pieceColor, pieceName);
+			piece = new Knight(pieceName, isPieceWhite);
 		}
 		//Queen
 		else if(pieceName.contains("Q"))
 		{
-			piece = new Queen(pieceColor, pieceName);
+			piece = new Queen(pieceName, isPieceWhite);
 		}
 		//Rook
 		else if(pieceName.contains("R"))
 		{
-			piece = new Rook(pieceColor, pieceName);
+			piece = new Rook(pieceName, isPieceWhite);
 		}
 		//Pawn
 		else if(pieceName.contains("P"))
 		{
-			piece = new Pawn(pieceColor, pieceName);
+			piece = new Pawn(pieceName, isPieceWhite);
 		}
 		
 		isVacant = false;

@@ -3,14 +3,14 @@ package chess.pieces;
 public class Pawn extends Piece
 {
 	//Make sure that color is being set!
-	public Pawn(String c, String n)
+	public Pawn(String c, boolean b)
 	{
-		super(c, n);
+		super(c, b);
 	}
 	
-	public String getColor()
+	public boolean isPieceWhite()
 	{
-		return color;
+		return isWhite;
 	}
 	
 	public String getName()
@@ -21,6 +21,13 @@ public class Pawn extends Piece
 	@Override
 	public String toString()
 	{
-		return color + name;
+		if(isWhite)
+		{
+			return "l" + name;
+		}
+		else
+		{
+			return "d" + name;
+		}
 	}
 }

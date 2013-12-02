@@ -2,18 +2,18 @@ package chess.pieces;
 
 public abstract class Piece 
 {
-	String color;
+	boolean isWhite;
 	String name;
 	
-	public Piece(String c, String n)
+	public Piece(String n, boolean b)
 	{
-		color = c;
 		name = n;
+		isWhite = b;
 	}
 	
-	public String getColor()
+	public boolean isPieceWhite()
 	{
-		return color;
+		return isWhite;
 	}
 	
 	public String getName()
@@ -30,6 +30,13 @@ public abstract class Piece
 	@Override
 	public String toString()
 	{
-		return color + name;
+		if(isWhite)
+		{
+			return "l" + name;
+		}
+		else
+		{
+			return "d" + name;
+		}
 	}
 }

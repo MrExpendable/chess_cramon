@@ -19,18 +19,14 @@ public class FileIO
 		parser = new FileParser();
 		try
 		{
-			System.out.println(filePath);
-			input = getClass().getResourceAsStream("module1");
+			input = getClass().getResourceAsStream(filePath);
 			BufferedReader bReader = new BufferedReader(new InputStreamReader(input));
-			System.out.println("Work already");
 			try 
 			{
 				System.out.println("Get inside this try catch");
 				while(bReader.ready())
 				{
-					System.out.println("Fucking read this next line: " + nextLine);
 					nextLine = bReader.readLine();
-					
 					parser.piecePlacement(boardToFill, nextLine);
 				}
 			}
@@ -48,12 +44,14 @@ public class FileIO
 				catch (IOException e) 
 				{
 					System.err.println("Couldn't close buffered reader stream");
+					e.printStackTrace();
 				}
 			}
 		}
 		catch(Exception e)
 		{
 			System.err.println("Unable to read file");
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -65,6 +63,7 @@ public class FileIO
 			catch(IOException e)
 			{
 				System.err.println("Couldn't close input stream");
+				e.printStackTrace();
 			}
 		}
 	}

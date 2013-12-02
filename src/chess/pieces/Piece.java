@@ -21,6 +21,12 @@ public abstract class Piece
 		return name;
 	}
 	
+	//public boolean isValidMove(Location old, Location new) { }
+	public boolean isValidMove()
+	{
+		return false;
+	}
+	
 	@Override
 	public String toString()
 	{

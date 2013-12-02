@@ -1,13 +1,11 @@
 package chess.board;
 
-import chess.pieces.*;
-
 public class Chessboard 
 {
 	//Chessboard will be a 2D array of Tiles
 	private final int BOARD_LENGTH = 8;
 	private final int BOARD_WIDTH = 8;
-	Tile[][] board;
+	private Tile[][] board;
 	
 	/*
 	 * Instantiates the 2D Tile array(the board)
@@ -18,7 +16,7 @@ public class Chessboard
 	}
 	
 	/*
-	 * 
+	 * Fills the board
 	 */
 	public void fillBoard(String pieceColor, String pieceType, String position)
 	{
@@ -27,38 +25,21 @@ public class Chessboard
 		int column = Character.getNumericValue(char1) - 10;
 		int row = Character.getNumericValue(char2) - 1;
 		
-		board[row][column].setPiece(pieceType, pieceColor);
-//		//Bishop
-//		if(pieceType.contains("B"))
-//		{
-//			board[row][column] = new Tile(new Bishop(pieceColor));
-//		}
-//		//King
-//		else if(pieceType.contains("K"))
-//		{
-//			board[row][column] = new Tile(new King(pieceColor));
-//		}
-//		//Knight
-//		else if(pieceType.contains("N"))
-//		{
-//			board[row][column] = new Tile(new Knight(pieceColor));
-//		}
-//		//Queen
-//		else if(pieceType.contains("Q"))
-//		{
-//			board[row][column] = new Tile(new Queen(pieceColor));
-//		}
-//		//Rook
-//		else if(pieceType.contains("R"))
-//		{
-//			board[row][column] = new Tile(new Rook(pieceColor));
-//		}
-//		//Pawn
-//		else if(pieceType.contains("P"))
-//		{
-//			board[row][column] = new Tile(new Pawn(pieceColor));
-//		}
+		System.out.println(pieceType + pieceColor);
 		
+		if(board[row][column] == null)
+		{
+			System.out.println("Null space");
+			board[row][column].setPiece(pieceType, pieceColor);
+		}
+		else
+		{
+			board[row][column].setPiece(pieceType, pieceColor);
+		}
+		
+		////YOU SHOULD PROBABLY MAKE THE COLOR A BOOLEAN, LIKE ISWHITE
+		//PEOPLE SAY THAT USING CAPS IS LIKE YELLING
+		//I SAY THAT IT'S A WAY OF SECURING SOMEONE'S ATTENTION
 		//System.out.printf("Column: %s%nRow: %s%n", column, row);
 	}
 	

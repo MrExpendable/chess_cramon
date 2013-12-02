@@ -1,19 +1,15 @@
 package chess.board;
-import chess.pieces.Bishop;
-import chess.pieces.King;
-import chess.pieces.Knight;
-import chess.pieces.Pawn;
-import chess.pieces.Piece;
-import chess.pieces.Queen;
-import chess.pieces.Rook;
+import chess.pieces.*;
 
 public class Tile 
 {
 	private Piece piece;
+	private boolean isVacant;
 	
 	public Tile(Piece p)
 	{
 		piece = p;
+		isVacant = true;
 	}
 	
 	public void setPiece(String pieceName, String pieceColor)
@@ -48,11 +44,23 @@ public class Tile
 		{
 			piece = new Pawn(pieceColor, pieceName);
 		}
+		
+		isVacant = false;
 	}
 	
 	public Piece getPiece()
 	{
 		return piece;
+	}
+	
+	public void setVacancy(boolean b)
+	{
+		isVacant = b;
+	}
+	
+	public boolean getVacancy()
+	{
+		return isVacant;
 	}
 	
 	public String getPieceName()

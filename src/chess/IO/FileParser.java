@@ -17,11 +17,9 @@ public class FileParser
 			Location initPos = new Location(matcher.group("initPos"));
 			Location finalPos = new Location(matcher.group("finalPos"));
 			
-			System.out.println("init");
-			System.out.println(initPos.toString());
+			board.movePiece(initPos, finalPos);
 			
-			System.out.println("final");
-			System.out.println(finalPos.toString());
+			board.printBoard();
 			
 //			System.out.printf("Moved piece from %s to %s%n", matcher.group("initPos"), matcher.group("finalPos"));
 		}

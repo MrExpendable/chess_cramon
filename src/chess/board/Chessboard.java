@@ -74,7 +74,21 @@ public class Chessboard
 	
 	public void movePiece(Location init, Location fin)
 	{
+		int initCol = init.getColumn();
+		int initRow = init.getRow();
+		int finCol = fin.getColumn();
+		int finRow = fin.getRow();
 		
+		if(board[initCol][initRow] != null)
+		{
+			board[finCol][finRow] = board[initCol][initRow];
+			board[initCol][initRow] = null;
+			System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
+		}
+		else
+		{
+			System.out.println("No piece here.\n");
+		}
 	}
 	
 //	/*

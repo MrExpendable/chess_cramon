@@ -22,8 +22,9 @@ public class Chessboard
 	public void fillPawns()
 	{
 		//Using constant number to represent either dark or light row that the pawns can fill
-		final int DARKPAWNROW = 1;
-		final int LIGHTPAWNROW = 6;
+		final int LIGHTPAWNROW = 1;
+		final int DARKPAWNROW = 6;
+		
 		
 		//Fill board with pawns
 		for(int i = 0; i < BOARD_WIDTH; i++)
@@ -42,8 +43,8 @@ public class Chessboard
 	public void fillSpecialPieces()
 	{
 		//Represents the row in which special pieces will be placed
-		final int DARK_SPECIAL_ROW = 0;
-		final int LIGHT_SPECIAL_ROW = 7;
+		final int LIGHT_SPECIAL_ROW = 0;
+		final int DARK_SPECIAL_ROW = 7;
 		
 		//Rooks
 		board[0][DARK_SPECIAL_ROW] = new Tile(new Rook("R", false));
@@ -81,9 +82,16 @@ public class Chessboard
 		
 		if(board[initCol][initRow] != null)
 		{
-			board[finCol][finRow] = board[initCol][initRow];
-			board[initCol][initRow] = null;
-			System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
+			if(board[initCol][initRow].getPiece().isValidMove(initCol, initRow, finCol, finRow))
+			{
+				board[finCol][finRow] = board[initCol][initRow];
+				board[initCol][initRow] = null;
+				System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
+			}
+			else
+			{
+				System.out.println("Move is invalid, try again.");
+			}
 		}
 		else
 		{
@@ -130,10 +138,11 @@ public class Chessboard
 	 */
 	public void printBoard()
 	{
+		System.out.println("\n       a   b   c   d   e   f   g   h\n");
 		for(int i = 0; i < BOARD_LENGTH; i++)
 		{
 			//Prints out the numbers on the side of the board to signify one of the axes
-			System.out.print(BOARD_LENGTH - i + "      ");
+			System.out.print(i + 1 + "      ");
 			for(int j = 0; j < BOARD_WIDTH; j++)
 			{
 				if(board[j][i] == null)
@@ -149,8 +158,5 @@ public class Chessboard
 			}
 			System.out.println("");
 		}
-		//Prints out the other axis of the board on the bottom of the board
-		System.out.println("\n       a   b   c   d   e   f   g   h");
-		System.out.println("\n\n");
 	}
 }

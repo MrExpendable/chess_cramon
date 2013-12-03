@@ -17,6 +17,11 @@ public class Knight extends Piece
 		return name;
 	}
 	
+	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
+	{
+		return true;
+	}
+	
 	@Override
 	public String toString()
 	{

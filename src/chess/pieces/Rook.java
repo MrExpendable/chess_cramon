@@ -30,18 +30,10 @@ public class Rook extends Piece
 		}
 	}
 	
-//	public boolean isValidMove()
-//	{
-//		if((startRow == endRow && Math.abs(startCol - endCol) <= maxBounds)
-//				|| (startCol == endCol && Math.abs(startRow - endRow) <= maxBounds))
-//		{
-//			return true;
-//		}
-//		else
-//		{
-//			return false;
-//		}
-//		
-//		//Do something like "return logic here that comes to either true or false" instead of this if else stuff for EVERYTHING
-//	}
+	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
+	{
+		final int MAXBOUNDS = 8;
+		
+		return (startRow == endRow && Math.abs(startCol - endCol) <= MAXBOUNDS) || (startCol == endCol && Math.abs(startRow - endRow) <= MAXBOUNDS);
+	}
 }

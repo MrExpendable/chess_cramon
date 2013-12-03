@@ -22,7 +22,7 @@ public abstract class Piece
 	}
 	
 	//public boolean isValidMove(Location old, Location new) { }
-	public boolean isValidMove()
+	public boolean isValidMove(int fromCol, int fromRow, int toCol, int toRow)
 	{
 		return false;
 	}

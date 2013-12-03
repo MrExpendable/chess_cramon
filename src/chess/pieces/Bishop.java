@@ -17,6 +17,11 @@ public class Bishop extends Piece
 		return name;
 	}
 	
+	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
+	{
+		return (endCol != startCol && startRow != endRow && ((Math.abs(endRow - startRow) == Math.abs(endCol - startCol)) || Math.abs(startRow - endRow) == Math.abs(startCol - endCol)));
+	}
+	
 	@Override
 	public String toString()
 	{

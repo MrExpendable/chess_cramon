@@ -18,6 +18,12 @@ public class Pawn extends Piece
 		return name;
 	}
 	
+	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
+	{
+		//Figure out pawn movement later
+		return true;
+	}
+	
 	@Override
 	public String toString()
 	{

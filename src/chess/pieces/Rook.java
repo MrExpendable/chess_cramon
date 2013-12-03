@@ -34,6 +34,7 @@ public class Rook extends Piece
 	{
 		final int MAXBOUNDS = 8;
 		
+		//works
 		return (startRow == endRow && Math.abs(startCol - endCol) <= MAXBOUNDS) || (startCol == endCol && Math.abs(startRow - endRow) <= MAXBOUNDS);
 	}
 }

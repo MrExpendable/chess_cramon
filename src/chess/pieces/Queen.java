@@ -19,7 +19,10 @@ public class Queen extends Piece
 	
 	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
 	{
-		return true;
+		final int MAXBOUNDS = 8;
+		
+		return ((startRow == endRow && Math.abs(startCol - endCol) <= MAXBOUNDS) || (startCol == endCol && Math.abs(startRow - endRow) <= MAXBOUNDS) ||
+				(endCol != startCol && startRow != endRow && (Math.abs(endRow - startRow) == Math.abs(endCol - startCol))));
 	}
 	
 	@Override

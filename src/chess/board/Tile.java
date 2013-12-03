@@ -9,7 +9,7 @@ public class Tile
 	public Tile(Piece p)
 	{
 		piece = p;
-		isVacant = true;
+		isVacant = false;
 	}
 	
 	public void setPiece(String pieceName, boolean isPieceWhite)
@@ -45,7 +45,7 @@ public class Tile
 			piece = new Pawn(pieceName, isPieceWhite);
 		}
 		
-		isVacant = false;
+		isVacant = true;
 	}
 	
 	public Piece getPiece()

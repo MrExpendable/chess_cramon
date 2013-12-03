@@ -19,7 +19,9 @@ public class King extends Piece
 	
 	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
 	{
-		return true;
+		//Works
+		return ((startRow == endRow && Math.abs(startCol - endCol) <= 1) || (startCol == endCol && Math.abs(startRow - endRow) <= 1) || 
+				(endCol != startCol && startRow != endRow && ((Math.abs(startRow - endRow) == 1 && Math.abs(startCol - endCol) == 1))));
 	}
 	
 	@Override

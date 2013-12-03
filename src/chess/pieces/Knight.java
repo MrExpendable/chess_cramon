@@ -19,7 +19,8 @@ public class Knight extends Piece
 	
 	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
 	{
-		return true;
+		return ((Math.abs(startCol - endCol) == 2 && Math.abs(startRow - endRow) == 1) ||
+					(Math.abs(startCol - endCol) == 1 && Math.abs(startRow - endRow) == 2));
 	}
 	
 	@Override

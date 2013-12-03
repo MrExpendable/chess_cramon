@@ -13,7 +13,7 @@ public class Location
 	public Location(String pos)
 	{
 		//The general idea is that this constructor can parse a String position and convert it to a Location
-		//Example: A1 would be converted to 0,0, C4 would be converted to 2,3
+		//Example: A1 would be converted to 0, 0, C4 would be converted to 2, 3
 		
 		//Converts the chars to ints
 		char char1 = pos.charAt(0);

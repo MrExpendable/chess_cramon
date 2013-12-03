@@ -27,7 +27,6 @@ public class FileIO
 				{
 					nextLine = bReader.readLine();
 					parser.pieceMovement(board, nextLine);
-					//parser.piecePlacement(boardToFill, nextLine);
 				}
 			}
 			catch(IOException e) 

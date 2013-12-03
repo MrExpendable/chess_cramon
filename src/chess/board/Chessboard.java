@@ -7,6 +7,7 @@ public class Chessboard
 	private final int BOARD_LENGTH = 8;
 	private final int BOARD_WIDTH = 8;
 	private Tile[][] board;
+	private boolean isWhiteTurn = true;
 	
 	/*
 	 * Instantiates the 2D Tile array(the board)
@@ -30,9 +31,6 @@ public class Chessboard
 		for(int i = 0; i < BOARD_WIDTH; i++)
 		{
 			board[i][LIGHTPAWNROW] = new Tile(new Pawn("P", true));
-		}
-		for(int i = 0; i < BOARD_WIDTH; i++)
-		{
 			board[i][DARKPAWNROW] = new Tile(new Pawn("P", false));
 		}
 	}
@@ -73,24 +71,44 @@ public class Chessboard
 		board[4][LIGHT_SPECIAL_ROW] = new Tile(new King("K", true));
 	}
 	
+	public void changePlayerTurn()
+	{
+		isWhiteTurn = !isWhiteTurn;
+	}
+	
 	public void movePiece(Location init, Location fin)
 	{
 		int initCol = init.getColumn();
 		int initRow = init.getRow();
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
+		boolean isPieceWhite = board[initCol][initRow].getPiece().isPieceWhite();
+		Tile currentSpace = board[initCol][initRow];
 		
-		if(board[initCol][initRow] != null)
+		//If the space is occupied by a piece(isn't null)
+		if(currentSpace != null)
 		{
-			if(board[initCol][initRow].getPiece().isValidMove(initCol, initRow, finCol, finRow))
+			//If white turn and white piece or dark turn and dark piece
+			if(isPieceWhite == isWhiteTurn)
 			{
-				board[finCol][finRow] = board[initCol][initRow];
-				board[initCol][initRow] = null;
-				System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
+				//Get the piece and if the locations sent indicate a valid move
+				if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
+				{
+					//Move the piece and set the old space to null
+					board[finCol][finRow] = board[initCol][initRow];
+					board[initCol][initRow] = null;
+					changePlayerTurn();
+					
+					System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
+				}
+				else
+				{
+					System.out.println("Move is invalid, try again.");
+				}
 			}
 			else
 			{
-				System.out.println("Move is invalid, try again.");
+				System.out.println("It's not your turn.");
 			}
 		}
 		else
@@ -98,40 +116,6 @@ public class Chessboard
 			System.out.println("No piece here.\n");
 		}
 	}
-	
-//	/*
-//	 * Fills the board
-//	 */
-//	public void fillBoard(String pieceColor, String pieceType, String position)
-//	{
-//		char char1 = position.charAt(0);
-//		char char2 = position.charAt(1);
-//		int column = Character.getNumericValue(char1) - 10;
-//		int row = Character.getNumericValue(char2) - 1;
-//		
-//		/*
-//		 * I don't know what to do with Location yet, to be honest
-//		 * I'm just trying to implement a system that will allow for easier use of piece location
-//		Location newPiece = new Location(column, row);
-//		System.out.println(newPiece.toString());
-//		*/
-//		
-//		if(board[row][column] == null)
-//		{
-//			System.out.println("Null space");
-////			board[row][column].getPieceName();
-//			board[row][column].setPiece(pieceType, pieceColor);
-//		}
-//		else
-//		{
-////			board[row][column].setPiece(pieceType, pieceColor);
-//		}
-//		
-//		////YOU SHOULD PROBABLY MAKE THE COLOR A BOOLEAN, LIKE ISWHITE
-//		//PEOPLE SAY THAT USING CAPS IS LIKE YELLING
-//		//I SAY THAT IT'S A WAY OF SECURING SOMEONE'S ATTENTION
-//		//System.out.printf("Column: %s%nRow: %s%n", column, row);
-//	}
 	
 	/*
 	 * Prints the board
@@ -160,3 +144,5 @@ public class Chessboard
 		}
 	}
 }
+
+//isPieceWhite && isWhiteTurn || 

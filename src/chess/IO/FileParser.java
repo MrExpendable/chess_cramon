@@ -1,6 +1,8 @@
 package chess.IO;
 import chess.board.Chessboard;
 import chess.board.Location;
+
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,18 +14,20 @@ public class FileParser
 		Pattern movement = Pattern.compile("(?<initPos>[a-h][1-8])\\s(?<finalPos>[a-h][1-8])");
 		Matcher matcher = movement.matcher(toRead);
 		
+//		ArrayList<Location> movesToReturn = null;
+		
 		if(matcher.find())
 		{
 			Location initPos = new Location(matcher.group("initPos"));
 			Location finalPos = new Location(matcher.group("finalPos"));
 			
+//			movesToReturn.add(initPos);
+//			movesToReturn.add(finalPos);
 			board.movePiece(initPos, finalPos);
-			
 			board.printBoard();
-			
-//			System.out.printf("Moved piece from %s to %s%n", matcher.group("initPos"), matcher.group("finalPos"));
 		}
-		System.out.println("");
+		
+//		return movesToReturn;
 	}
 	
 	//Checks for piece capturing

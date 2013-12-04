@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class Game 
 {
 	private Chessboard board;
-	private boolean isWhiteTurn = true;
+	private Player player1, player2;
+	private boolean isPlayer1Turn = true;
 	ArrayList<Location> moves = null;
 	
 	public Game()
@@ -19,25 +20,29 @@ public class Game
 	public void setUpGame(String filePath)
 	{
 		FileIO fileRead = new FileIO();
+		player1 = new Player();
+		player2 = new Player();
 		
 		board.fillSpecialPieces();
 		board.printBoard();
 		
-		fileRead.readFile(board, filePath);
+		//fileRead.readFile(board, filePath);
+		
 		//moves = fileRead.readFile(filePath);
 	}
 	
-//	public void playGame()
-//	{
+	public void playGame()
+	{
+		
 //		for(int i = 0; i < moves.size(); i++)
 //		{
 //			board.movePiece(moves.get(i), moves.get(i+1));
 //			changePlayerTurn();
 //		}
-//	}
+	}
 	
 //	public void changePlayerTurn()
 //	{
-//		isWhiteTurn = !isWhiteTurn;
+//		isPlayer1Turn = !isPlayer1Turn;
 //	}
 }

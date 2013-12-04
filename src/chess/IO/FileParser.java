@@ -57,7 +57,7 @@ public class FileParser
 		{
 			String pieceType = matcher.group("piece");
 			String position = matcher.group("position");
-			String pieceColor = (pieceType.contains("l") ? "l" : "d");
+			boolean pieceIsWhite = (pieceType.contains("l") ? true : false);
 			String pieceName = pieceType.substring(0, 1);
 			
 			//System.out.printf("%s %s placed at: %s%n", pieceColor, pieceName, position);

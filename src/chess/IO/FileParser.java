@@ -60,9 +60,9 @@ public class FileParser
 			boolean pieceIsWhite = (pieceType.contains("l") ? true : false);
 			String pieceName = pieceType.substring(0, 1);
 			
-			//System.out.printf("%s %s placed at: %s%n", pieceColor, pieceName, position);
+			System.out.printf("%s %s to be placed at: %s%n", pieceIsWhite, pieceName, position);
 			
-			//boardToFill.fillBoard(pieceColor, pieceName, position);
+//			boardToFill.fillBoard(pieceIsWhite, pieceName, position);
 		}
 	}
 	

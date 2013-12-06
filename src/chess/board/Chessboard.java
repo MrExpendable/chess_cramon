@@ -17,6 +17,16 @@ public class Chessboard
 		board = new Tile[BOARD_LENGTH][BOARD_WIDTH];
 	}
 	
+	public Tile[][] getBoard()
+	{
+		return board;
+	}
+	
+	public Location getPieceLocation()
+	{
+		return 
+	}
+	
 	/*
 	 * Fills specific rows of the board with pawns
 	 */
@@ -76,7 +86,41 @@ public class Chessboard
 		isWhiteTurn = !isWhiteTurn;
 	}
 	
-	public void movePiece(Location init, Location fin)
+	  /*
+	  * Fills the board
+	  */
+	 public void fillBoard(boolean pieceIsWhite, String pieceType, String position)
+	 {
+	     char char1 = position.charAt(0);
+	     char char2 = position.charAt(1);
+	     int column = Character.getNumericValue(char1) - 10;
+	     int row = Character.getNumericValue(char2) - 1;
+	     
+	     /*
+	      * I don't know what to do with Location yet, to be honest
+	      * I'm just trying to implement a system that will allow for easier use of piece location
+	     Location newPiece = new Location(column, row);
+	     System.out.println(newPiece.toString());
+	     */
+	     
+	     if(board[row][column] == null)
+	     {
+             System.out.println("Null space");
+//                 board[row][column].getPieceName();
+             board[row][column].setPiece(pieceType, pieceIsWhite);
+	     }
+	     else
+	     {
+//           board[row][column].setPiece(pieceType, pieceColor);
+	     }
+	     
+	     ////YOU SHOULD PROBABLY MAKE THE COLOR A BOOLEAN, LIKE ISWHITE
+	     //PEOPLE SAY THAT USING CAPS IS LIKE YELLING
+	     //I SAY THAT IT'S A WAY OF SECURING SOMEONE'S ATTENTION
+	     //System.out.printf("Column: %s%nRow: %s%n", column, row);
+	 }
+	
+	public boolean movePiece(Location init, Location fin)
 	{
 		int initCol = init.getColumn();
 		int initRow = init.getRow();
@@ -100,20 +144,25 @@ public class Chessboard
 					changePlayerTurn();
 					
 					System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
+					
+					return true;
 				}
 				else
 				{
 					System.out.println("Move is invalid, try again.");
+					return false;
 				}
 			}
 			else
 			{
 				System.out.println("It's not your turn.");
+				return false;
 			}
 		}
 		else
 		{
 			System.out.println("No piece here.\n");
+			return false;
 		}
 	}
 	

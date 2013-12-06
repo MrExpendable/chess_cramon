@@ -62,7 +62,7 @@ public class FileParser
 			
 			System.out.printf("%s %s to be placed at: %s%n", pieceIsWhite, pieceName, position);
 			
-//			boardToFill.fillBoard(pieceIsWhite, pieceName, position);
+			boardToFill.fillBoard(pieceIsWhite, pieceName, position);
 		}
 	}
 	

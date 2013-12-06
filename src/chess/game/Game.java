@@ -3,6 +3,7 @@ import chess.IO.FileIO;
 import chess.board.Chessboard;
 import chess.board.Location;
 import chess.board.Tile;
+import chess.pieces.Piece;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -58,26 +59,42 @@ public class Game
 				changePlayerTurn();
 			}
 		}
-//		for(int i = 0; i < moves.size(); i++)
-//		{
-//			board.movePiece(moves.get(i), moves.get(i+1));
-//			changePlayerTurn();
-//		}
+	}
+	
+	public Location getKingLocation(Tile[][] board)
+	{
+		Location kingLoc = null;
+		
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				if(board[j][i].getPiece().getName().contains("K"))
+				{
+					System.out.println("lol");
+					kingLoc = board[j][i].getPiece().getLocation();
+				}
+			}
+		}
+		
+		return kingLoc;
 	}
 	
 	public boolean evaluateForCheck(Chessboard board)
 	{
 		Tile[][] boardCopy = new Tile[8][8];
 		boardCopy = board.getBoard();
+		Location kingLoc = getKingLocation(boardCopy);
 		
 		for(int i = 0; i < 8; i++)
 		{
 			for(int j = 0; j < 8; j++)
 			{
-				if(boardCopy[j][i] == null)
+				if(boardCopy[j][i] != null)
 				{
-					Piece toCheck = boardCopy[j][i].getPiece();
-					if(board.movePiece())
+					Location pieceLoc = boardCopy[j][i].getPiece().getLocation();
+					
+					if(board.movePiece(pieceLoc, kingLoc))
 					{
 						return true;
 					}

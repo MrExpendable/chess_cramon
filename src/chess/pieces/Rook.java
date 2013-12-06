@@ -1,10 +1,12 @@
 package chess.pieces;
 
+import chess.board.Location;
+
 public class Rook extends Piece
 {
-	public Rook(String c, boolean b)
+	public Rook(String c, boolean b, Location l)
 	{
-		super(c, b);
+		super(c, b, l);
 	}
 	
 	public boolean isPieceWhite()
@@ -16,6 +18,17 @@ public class Rook extends Piece
 	{
 		return name;
 	}
+	
+	public Location getLocation()
+	{
+		return pieceLoc;
+	}
+	
+	public void setLocation(Location pieceLoc) 
+	{
+		this.pieceLoc = pieceLoc;
+	}
+	
 	
 	@Override
 	public String toString()

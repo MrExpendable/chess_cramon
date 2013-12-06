@@ -22,9 +22,9 @@ public class Chessboard
 		return board;
 	}
 	
-	public Location getPieceLocation()
+	public Location getPieceLocation(Piece p)
 	{
-		return 
+		return p.getLocation();
 	}
 	
 	/*
@@ -40,8 +40,8 @@ public class Chessboard
 		//Fill board with pawns
 		for(int i = 0; i < BOARD_WIDTH; i++)
 		{
-			board[i][LIGHTPAWNROW] = new Tile(new Pawn("P", true));
-			board[i][DARKPAWNROW] = new Tile(new Pawn("P", false));
+			board[i][LIGHTPAWNROW] = new Tile(new Pawn("P", true, new Location(i, LIGHTPAWNROW)));
+			board[i][DARKPAWNROW] = new Tile(new Pawn("P", false, new Location(i, DARKPAWNROW)));
 		}
 	}
 	
@@ -55,30 +55,30 @@ public class Chessboard
 		final int DARK_SPECIAL_ROW = 7;
 		
 		//Rooks
-		board[0][DARK_SPECIAL_ROW] = new Tile(new Rook("R", false));
-		board[7][DARK_SPECIAL_ROW] = new Tile(new Rook("R", false));
-		board[0][LIGHT_SPECIAL_ROW] = new Tile(new Rook("R", true));
-		board[7][LIGHT_SPECIAL_ROW] = new Tile(new Rook("R", true));
+		board[0][DARK_SPECIAL_ROW] = new Tile(new Rook("R", false, new Location(0, DARK_SPECIAL_ROW)));
+		board[7][DARK_SPECIAL_ROW] = new Tile(new Rook("R", false, new Location(7, DARK_SPECIAL_ROW)));
+		board[0][LIGHT_SPECIAL_ROW] = new Tile(new Rook("R", true, new Location(0, LIGHT_SPECIAL_ROW)));
+		board[7][LIGHT_SPECIAL_ROW] = new Tile(new Rook("R", true, new Location(7, LIGHT_SPECIAL_ROW)));
 		
 		//Knights
-		board[1][DARK_SPECIAL_ROW] = new Tile(new Knight("N", false));
-		board[6][DARK_SPECIAL_ROW] = new Tile(new Knight("N", false));
-		board[1][LIGHT_SPECIAL_ROW] = new Tile(new Knight("N", true));
-		board[6][LIGHT_SPECIAL_ROW] = new Tile(new Knight("N", true));
+		board[1][DARK_SPECIAL_ROW] = new Tile(new Knight("N", false, new Location(1, DARK_SPECIAL_ROW)));
+		board[6][DARK_SPECIAL_ROW] = new Tile(new Knight("N", false, new Location(6, DARK_SPECIAL_ROW)));
+		board[1][LIGHT_SPECIAL_ROW] = new Tile(new Knight("N", true, new Location(1, LIGHT_SPECIAL_ROW)));
+		board[6][LIGHT_SPECIAL_ROW] = new Tile(new Knight("N", true, new Location(6, LIGHT_SPECIAL_ROW)));
 		
 		//Bishops
-		board[2][DARK_SPECIAL_ROW] = new Tile(new Bishop("B", false));
-		board[5][DARK_SPECIAL_ROW] = new Tile(new Bishop("B", false));
-		board[2][LIGHT_SPECIAL_ROW] = new Tile(new Bishop("B", true));
-		board[5][LIGHT_SPECIAL_ROW] = new Tile(new Bishop("B", true));
+		board[2][DARK_SPECIAL_ROW] = new Tile(new Bishop("B", false, new Location(2, DARK_SPECIAL_ROW)));
+		board[5][DARK_SPECIAL_ROW] = new Tile(new Bishop("B", false, new Location(5, DARK_SPECIAL_ROW)));
+		board[2][LIGHT_SPECIAL_ROW] = new Tile(new Bishop("B", true, new Location(2, LIGHT_SPECIAL_ROW)));
+		board[5][LIGHT_SPECIAL_ROW] = new Tile(new Bishop("B", true, new Location(5, LIGHT_SPECIAL_ROW)));
 		
 		//Queens
-		board[3][DARK_SPECIAL_ROW] = new Tile(new Queen("Q", false));
-		board[3][LIGHT_SPECIAL_ROW] = new Tile(new Queen("Q", true));
+		board[3][DARK_SPECIAL_ROW] = new Tile(new Queen("Q", false, new Location(3, DARK_SPECIAL_ROW)));
+		board[3][LIGHT_SPECIAL_ROW] = new Tile(new Queen("Q", true, new Location(3, LIGHT_SPECIAL_ROW)));
 		
 		//Kings
-		board[4][DARK_SPECIAL_ROW] = new Tile(new King("K", false));
-		board[4][LIGHT_SPECIAL_ROW] = new Tile(new King("K", true));
+		board[4][DARK_SPECIAL_ROW] = new Tile(new King("K", false, new Location(4, DARK_SPECIAL_ROW)));
+		board[4][LIGHT_SPECIAL_ROW] = new Tile(new King("K", true, new Location(4, LIGHT_SPECIAL_ROW)));
 	}
 	
 	public void changePlayerTurn()
@@ -96,22 +96,11 @@ public class Chessboard
 	     int column = Character.getNumericValue(char1) - 10;
 	     int row = Character.getNumericValue(char2) - 1;
 	     
-	     /*
-	      * I don't know what to do with Location yet, to be honest
-	      * I'm just trying to implement a system that will allow for easier use of piece location
-	     Location newPiece = new Location(column, row);
-	     System.out.println(newPiece.toString());
-	     */
-	     
 	     if(board[row][column] == null)
 	     {
-             System.out.println("Null space");
-//                 board[row][column].getPieceName();
-             board[row][column].setPiece(pieceType, pieceIsWhite);
-	     }
-	     else
-	     {
-//           board[row][column].setPiece(pieceType, pieceColor);
+             System.out.println("Null space to be filled");
+//             board[row][column] = new Tile(new Piece(pieceType, pieceIsWhite, new Location(column, row)));
+//             board[row][column].setPiece(pieceType, pieceIsWhite, new Location(column, row));
 	     }
 	     
 	     ////YOU SHOULD PROBABLY MAKE THE COLOR A BOOLEAN, LIKE ISWHITE
@@ -138,6 +127,9 @@ public class Chessboard
 				//Get the piece and if the locations sent indicate a valid move
 				if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
 				{
+					//Set the piece's new location
+					currentSpace.getPiece().setLocation(new Location(finCol, finRow));
+					
 					//Move the piece and set the old space to null
 					board[finCol][finRow] = board[initCol][initRow];
 					board[initCol][initRow] = null;

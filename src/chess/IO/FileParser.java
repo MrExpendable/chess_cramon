@@ -23,7 +23,7 @@ public class FileParser
 			
 //			movesToReturn.add(initPos);
 //			movesToReturn.add(finalPos);
-			board.movePiece(initPos, finalPos);
+			//board.movePiece(initPos, finalPos);
 			board.printBoard();
 		}
 		
@@ -62,7 +62,7 @@ public class FileParser
 			
 			System.out.printf("%s %s to be placed at: %s%n", pieceIsWhite, pieceName, position);
 			
-			boardToFill.fillBoard(pieceIsWhite, pieceName, position);
+			boardToFill.parsePieceInfo(pieceIsWhite, pieceName, position);
 		}
 	}
 	

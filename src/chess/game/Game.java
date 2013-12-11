@@ -13,7 +13,8 @@ public class Game
 	private Chessboard board;
 	private Player player1, player2;
 	private boolean isPlayer1Turn = true;
-	ArrayList<Location> checkMovesForCheck = null;
+	private boolean player1InCheck = false;
+	private boolean player2InCheck = false;
 	
 	public Game()
 	{
@@ -26,7 +27,7 @@ public class Game
 		player1 = new Player();
 		player2 = new Player();
 		
-		fileRead.readFile(board, filePath);
+		fileRead.startPiecePlacement(board, filePath);
 		playGame();
 	}
 	
@@ -36,31 +37,131 @@ public class Game
 		
 		while(true)
 		{
+			//checkmate:
+			//create boolean playerXInCheck
+			//If (playerXInCheck && evaluateForCheck(board))
+			// game over
 			if(isPlayer1Turn)
 			{
-				if(evaluateForCheck(board))
+				player1InCheck = evaluateForCheck(board) ? true : false;
+				
+				if(player1InCheck)
 				{
-					System.err.println("Player 1, your king is in check.");
+					System.err.println("Player 1, you're in check.");
 				}
 				
-				System.out.println("It's player 1's turn.");
-				String p1Input = playerInput.nextLine();
-				changePlayerTurn();
+				board.printBoard();
+				System.out.println("It's player 1's turn. Choose a piece.");
+				String p1PieceSelect = playerInput.nextLine();
+				Location pieceSelected = new Location(p1PieceSelect);
+				
+				System.out.println("Enter a location on the board to move the piece.");
+				String p1PieceMove = playerInput.nextLine();
+				Location toMove = new Location(p1PieceMove);
+				
+				if(pieceSelected != null && toMove != null)
+				{
+					if(board.movePiece(pieceSelected, toMove))
+					{
+						changePlayerTurn();
+					}
+				}
 			}
 			else
 			{
-				if(evaluateForCheck(board))
+				player2InCheck = evaluateForCheck(board) ? true : false;
+				
+				if(player2InCheck)
 				{
-					System.err.println("Player 2, your king is in check.");
+					System.err.println("Player 2, you're in check.");
 				}
 				
-				System.out.println("It's player 2's turn.");
-				String p2Input = playerInput.nextLine();
-				changePlayerTurn();
+				board.printBoard();
+				System.out.println("It's player 2's turn. Choose a piece.");
+				String p2PieceSelect = playerInput.nextLine();
+				Location pieceSelected = new Location(p2PieceSelect);
+				
+				System.out.println("Enter a location on the board to move the piece.");
+				String p2PieceMove = playerInput.nextLine();
+				Location toMove = new Location(p2PieceMove);
+				
+				if(pieceSelected != null && toMove != null)
+				{
+					if(board.movePiece(pieceSelected, toMove))
+					{
+						changePlayerTurn();
+					}
+				}
 			}
 		}
 	}
 	
+	public boolean evaluateForCheck(Chessboard board)
+	{
+		//Create copies of the board at its current state so that I'm not modifying the game
+		Chessboard chessboardCopy = board;
+		Tile[][] tileBoardCopy = chessboardCopy.getBoard();
+		
+		//Get king and king location
+		Piece kingToCheck = getKingFromBoard(tileBoardCopy);
+		Location kingLoc = kingToCheck.getLocation();
+		
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				//When in doubt, switch i and j once more
+				if(tileBoardCopy[i][j].getPiece() != null)
+				{
+					Location pieceLoc = tileBoardCopy[i][j].getPiece().getLocation();
+					
+					//if piece and king are not same color
+					if(tileBoardCopy[i][j].getPiece().isPieceWhite() != kingToCheck.isPieceWhite())
+					{
+						//if piece can move to king
+						if(chessboardCopy.testMovePiece(pieceLoc, kingLoc, tileBoardCopy))
+						{
+							changePlayerTurn();
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public Piece getKingFromBoard(Tile[][] board)
+	{
+		Piece king = null;
+		
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				//If the space isn't null
+				if(board[j][i] != null && board[j][i].getPiece() != null)
+				{
+					//Get a piece with the name "K" (which should be a king)
+					if(board[j][i].getPiece().getName().contains("K"))
+					{
+						king = board[j][i].getPiece();
+					}
+				}
+			}
+		}
+		
+		return king;
+	}
+	
+	public void changePlayerTurn()
+	{
+		isPlayer1Turn = !isPlayer1Turn;
+	}
+	
+	/*
+	 * No need for this method at the moment, just leaving it here in the event that I reimplement it later
+	 * 
 	public Location getKingLocation(Tile[][] board)
 	{
 		Location kingLoc = null;
@@ -69,43 +170,20 @@ public class Game
 		{
 			for(int j = 0; j < 8; j++)
 			{
-				if(board[j][i].getPiece().getName().contains("K"))
+				//If the space isn't null
+				if(board[j][i] != null)
 				{
-					System.out.println("lol");
-					kingLoc = board[j][i].getPiece().getLocation();
+					//Get a piece with the name "K"
+					if(board[j][i].getPiece().getName().contains("K"))
+					{
+						System.out.println("There's a king here");
+						kingLoc = board[j][i].getPiece().getLocation();
+					}
 				}
 			}
 		}
 		
 		return kingLoc;
 	}
-	
-	public boolean evaluateForCheck(Chessboard board)
-	{
-		Tile[][] boardCopy = new Tile[8][8];
-		boardCopy = board.getBoard();
-		Location kingLoc = getKingLocation(boardCopy);
-		
-		for(int i = 0; i < 8; i++)
-		{
-			for(int j = 0; j < 8; j++)
-			{
-				if(boardCopy[j][i] != null)
-				{
-					Location pieceLoc = boardCopy[j][i].getPiece().getLocation();
-					
-					if(board.movePiece(pieceLoc, kingLoc))
-					{
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	public void changePlayerTurn()
-	{
-		isPlayer1Turn = !isPlayer1Turn;
-	}
+	*/
 }

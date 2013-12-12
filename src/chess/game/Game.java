@@ -41,10 +41,13 @@ public class Game
 			//create boolean playerXInCheck
 			//If (playerXInCheck && evaluateForCheck(board))
 			// game over
+			//Author note: This is a really easy way out.. but it doesn't cover everything (what if the king can't move anywhere without getting capped?)
+			//I should design some other way to do this
 			if(isPlayer1Turn)
 			{
 				player1InCheck = evaluateForCheck(board) ? true : false;
 				
+				//Check
 				if(player1InCheck)
 				{
 					System.err.println("Player 1, you're in check.");
@@ -71,6 +74,7 @@ public class Game
 			{
 				player2InCheck = evaluateForCheck(board) ? true : false;
 				
+				//Check 
 				if(player2InCheck)
 				{
 					System.err.println("Player 2, you're in check.");

@@ -45,26 +45,26 @@ public class Game
 			//I should design some other way to do this
 			if(isPlayer1Turn)
 			{
-				player1InCheck = evaluateForCheck(board) ? true : false;
+				player1InCheck = evaluateLightCheck(board) ? true : false;
 				
 				//Check
 				if(player1InCheck)
 				{
-					System.err.println("Player 1, you're in check.");
+					System.out.println("Player 1, you're in check.");
 				}
 				
 				board.printBoard();
 				System.out.println("It's player 1's turn. Choose a piece.");
 				String p1PieceSelect = playerInput.nextLine();
-				Location pieceSelected = new Location(p1PieceSelect);
+				Location lightPieceSelected = new Location(p1PieceSelect);
 				
 				System.out.println("Enter a location on the board to move the piece.");
 				String p1PieceMove = playerInput.nextLine();
-				Location toMove = new Location(p1PieceMove);
+				Location lightToMove = new Location(p1PieceMove);
 				
-				if(pieceSelected != null && toMove != null)
+				if(lightPieceSelected != null && lightToMove != null)
 				{
-					if(board.movePiece(pieceSelected, toMove))
+					if(board.movePiece(lightPieceSelected, lightToMove))
 					{
 						changePlayerTurn();
 					}
@@ -72,26 +72,26 @@ public class Game
 			}
 			else
 			{
-				player2InCheck = evaluateForCheck(board) ? true : false;
+				player2InCheck = evaluateDarkCheck(board) ? true : false;
 				
 				//Check 
 				if(player2InCheck)
 				{
-					System.err.println("Player 2, you're in check.");
+					System.out.println("Player 2, you're in check.");
 				}
 				
 				board.printBoard();
 				System.out.println("It's player 2's turn. Choose a piece.");
 				String p2PieceSelect = playerInput.nextLine();
-				Location pieceSelected = new Location(p2PieceSelect);
+				Location darkPieceSelected = new Location(p2PieceSelect);
 				
 				System.out.println("Enter a location on the board to move the piece.");
 				String p2PieceMove = playerInput.nextLine();
-				Location toMove = new Location(p2PieceMove);
+				Location darkToMove = new Location(p2PieceMove);
 				
-				if(pieceSelected != null && toMove != null)
+				if(darkPieceSelected != null && darkToMove != null)
 				{
-					if(board.movePiece(pieceSelected, toMove))
+					if(board.movePiece(darkPieceSelected, darkToMove))
 					{
 						changePlayerTurn();
 					}
@@ -100,15 +100,15 @@ public class Game
 		}
 	}
 	
-	public boolean evaluateForCheck(Chessboard board)
+	public boolean evaluateLightCheck(Chessboard board)
 	{
 		//Create copies of the board at its current state so that I'm not modifying the game
-		Chessboard chessboardCopy = board;
+		Chessboard chessboardCopy = new Chessboard(board);
 		Tile[][] tileBoardCopy = chessboardCopy.getBoard();
 		
 		//Get king and king location
-		Piece kingToCheck = getKingFromBoard(tileBoardCopy);
-		Location kingLoc = kingToCheck.getLocation();
+		Piece lightKing = getLightKing(tileBoardCopy, true);
+		Location lightKingLoc = lightKing.getLocation();
 		
 		for(int i = 0; i < 8; i++)
 		{
@@ -120,12 +120,11 @@ public class Game
 					Location pieceLoc = tileBoardCopy[i][j].getPiece().getLocation();
 					
 					//if piece and king are not same color
-					if(tileBoardCopy[i][j].getPiece().isPieceWhite() != kingToCheck.isPieceWhite())
+					if(tileBoardCopy[i][j].getPiece().isPieceWhite() != lightKing.isPieceWhite())
 					{
 						//if piece can move to king
-						if(chessboardCopy.testMovePiece(pieceLoc, kingLoc, tileBoardCopy))
+						if(chessboardCopy.testMovePiece(pieceLoc, lightKingLoc, tileBoardCopy))
 						{
-							changePlayerTurn();
 							return true;
 						}
 					}
@@ -135,9 +134,43 @@ public class Game
 		return false;
 	}
 	
-	public Piece getKingFromBoard(Tile[][] board)
+	public boolean evaluateDarkCheck(Chessboard board)
 	{
-		Piece king = null;
+		//Create copies of the board at its current state so that I'm not modifying the game
+		Chessboard chessboardCopy = new Chessboard(board);
+		Tile[][] tileBoardCopy = chessboardCopy.getBoard();
+		
+		//Get king and king location
+		Piece darkKing = getDarkKing(tileBoardCopy, false);
+		Location darkKingLoc = darkKing.getLocation();
+		
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				//When in doubt, switch i and j once more
+				if(tileBoardCopy[i][j].getPiece() != null)
+				{
+					Location pieceLoc = tileBoardCopy[i][j].getPiece().getLocation();
+					
+					//if piece and king are not same color
+					if(tileBoardCopy[i][j].getPiece().isPieceWhite() != darkKing.isPieceWhite())
+					{
+						//if piece can move to king
+						if(chessboardCopy.testMovePiece(pieceLoc, darkKingLoc, tileBoardCopy))
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	public Piece getLightKing(Tile[][] board, boolean isWhite)
+	{
+		Piece lightKing = null;
 		
 		for(int i = 0; i < 8; i++)
 		{
@@ -147,15 +180,38 @@ public class Game
 				if(board[j][i] != null && board[j][i].getPiece() != null)
 				{
 					//Get a piece with the name "K" (which should be a king)
-					if(board[j][i].getPiece().getName().contains("K"))
+					if(board[j][i].getPiece().getName().contains("K") && board[j][i].getPiece().isPieceWhite())
 					{
-						king = board[j][i].getPiece();
+						lightKing = board[j][i].getPiece();
 					}
 				}
 			}
 		}
 		
-		return king;
+		return lightKing;
+	}
+	
+	public Piece getDarkKing(Tile[][] board, boolean isWhite)
+	{
+		Piece darkKing = null;
+		
+		for(int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+			{
+				//If the space isn't null
+				if(board[j][i] != null && board[j][i].getPiece() != null)
+				{
+					//Get a piece with the name "K" (which should be a king)
+					if(board[j][i].getPiece().getName().contains("K") && !board[j][i].getPiece().isPieceWhite())
+					{
+						darkKing = board[j][i].getPiece();
+					}
+				}
+			}
+		}
+		
+		return darkKing;
 	}
 	
 	public void changePlayerTurn()

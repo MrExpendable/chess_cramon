@@ -27,6 +27,20 @@ public class Chessboard
 		}
 	}
 	
+	//Copy constructor
+	public Chessboard(Chessboard toCopy)
+	{
+		board = new Tile[BOARD_LENGTH][BOARD_WIDTH];
+		
+		for(int i = 0; i < BOARD_LENGTH; i++)
+		{
+			for(int j = 0; j < BOARD_WIDTH; j++)
+			{
+				board[i][j] = toCopy.board[i][j];
+			}
+		}
+	}
+	
 	public Tile[][] getBoard()
 	{
 		return board;
@@ -187,8 +201,6 @@ public class Chessboard
 				copyBoard[finRow][finCol] = copyBoard[initRow][initCol];
 				copyBoard[initRow][initCol] = new Tile();
 				
-				System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
-				
 				return true;
 			}
 			else
@@ -202,13 +214,15 @@ public class Chessboard
 		}
 	}
 	
+	/*
+	 * Moves a piece
+	 */
 	public boolean movePiece(Location init, Location fin)
 	{
 		int initCol = init.getColumn();
 		int initRow = init.getRow();
 		int finCol = fin.getColumn();
 		int finRow = fin.getRow();
-//		boolean isPieceWhite = board[initRow][initCol].getPiece().isPieceWhite();
 		Tile currentSpace = board[initRow][initCol];
 		
 		//If the space is occupied by a piece(isn't null)
@@ -217,19 +231,21 @@ public class Chessboard
 			//Get the piece and if the locations sent indicate a valid move
 			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
 			{
-				//If piece and turn are same color
-				//isPlayerWhite is a boolean that I used to pass in
-				//if(currentSpace.getPiece().isPieceWhite() == isPlayerWhite)
-				//Set the piece's new location
-				currentSpace.getPiece().setLocation(new Location(finCol, finRow));
-				
-				//Move the piece and set the old space to null
-				board[finRow][finCol] = board[initRow][initCol];
-				board[initRow][initCol] = new Tile();
-				
-				System.out.printf("Moved piece from %s to %s%n", init.toString(), fin.toString());
-				
-				return true;
+				if(!checkForObstruction(init, fin))
+				{
+					currentSpace.getPiece().setLocation(new Location(finCol, finRow));
+					
+					//Move the piece and set the old space to null
+					board[finRow][finCol] = board[initRow][initCol];
+					board[initRow][initCol] = new Tile();
+					
+					return true;
+				}
+				else
+				{
+					System.out.println("There's a piece in the way(does not apply to knights).");
+					return false;
+				}
 			}
 			else
 			{
@@ -242,6 +258,31 @@ public class Chessboard
 			System.out.println("No piece here.\n");
 			return false;
 		}
+	}
+	
+	/*
+	 * Checks for obstructions along a piece's move path
+	 */
+	public boolean checkForObstruction(Location init, Location fin)
+	{
+		//I'm thinking that I should take the locations, subtract the columns and rows from final and initial positions, then iterate over the differences
+		//Once I'm iterating over the differences, I check if there's a piece in a specific space
+		//If there's a piece, return true, but if it's empty, return false
+		
+		int columnCount = init.getColumn();
+		int rowCount = init.getRow();
+		int colDif = Math.abs(fin.getColumn() - init.getColumn());
+		int rowDif = Math.abs(fin.getRow() - init.getRow());
+		
+			while(columnCount < fin.getColumn() && rowCount < fin.getRow())
+			{
+				if((board[Math.abs(columnCount + i)][rowCount].getPiece() != null) || 
+						(board[columnCount][Math.abs(rowCount + i)] != null))
+				{
+					return true;
+				}
+			}
+		return false;
 	}
 	
 	/*

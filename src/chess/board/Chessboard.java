@@ -231,7 +231,8 @@ public class Chessboard
 			//Get the piece and if the locations sent indicate a valid move
 			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
 			{
-				if(!checkForObstruction(init, fin))
+				//If no obstructions or piece is a knight
+				if(currentSpace.getPiece() instanceof Knight || !checkForObstruction(init, fin, board, currentSpace.getPiece()))
 				{
 					currentSpace.getPiece().setLocation(new Location(finCol, finRow));
 					
@@ -243,7 +244,7 @@ public class Chessboard
 				}
 				else
 				{
-					System.out.println("There's a piece in the way(does not apply to knights).");
+					System.out.println("There's a piece in the way, try a different move.\n");
 					return false;
 				}
 			}
@@ -263,26 +264,54 @@ public class Chessboard
 	/*
 	 * Checks for obstructions along a piece's move path
 	 */
-	public boolean checkForObstruction(Location init, Location fin)
+	public boolean checkForObstruction(Location init, Location fin, Tile[][] obstructedBoard, Piece pieceToCheck)
 	{
 		//I'm thinking that I should take the locations, subtract the columns and rows from final and initial positions, then iterate over the differences
 		//Once I'm iterating over the differences, I check if there's a piece in a specific space
 		//If there's a piece, return true, but if it's empty, return false
 		
-		int columnCount = init.getColumn();
-		int rowCount = init.getRow();
-		int colDif = Math.abs(fin.getColumn() - init.getColumn());
-		int rowDif = Math.abs(fin.getRow() - init.getRow());
+		Location greaterLoc, lesserLoc;
 		
-			while(columnCount < fin.getColumn() && rowCount < fin.getRow())
+		if((init.getColumn() + init.getRow()) > (fin.getColumn() + fin.getRow()))
+		{
+			greaterLoc = init;
+			lesserLoc = fin;
+		}
+		else
+		{
+			greaterLoc = fin;
+			lesserLoc = init;
+		}
+		
+		int colDif = Math.abs(greaterLoc.getColumn() - lesserLoc.getColumn());
+		int rowDif = Math.abs(greaterLoc.getRow() - lesserLoc.getRow());
+		boolean isObstructed = false;
+		
+		if(colDif > 0)
+		{
+			for(int i = 1; i < colDif; i++)
 			{
-				if((board[Math.abs(columnCount + i)][rowCount].getPiece() != null) || 
-						(board[columnCount][Math.abs(rowCount + i)] != null))
+				if(obstructedBoard[greaterLoc.getColumn() - i][greaterLoc.getRow()].getPiece() != null
+						&& obstructedBoard[greaterLoc.getColumn() - i][greaterLoc.getRow()].getPiece() != pieceToCheck)
 				{
-					return true;
+					isObstructed = true;
 				}
 			}
-		return false;
+		}
+		
+		if(rowDif > 0)
+		{
+			for(int i = 1; i < rowDif; i++)
+			{
+				if((obstructedBoard[greaterLoc.getColumn()][greaterLoc.getRow() - i].getPiece() != null)
+						&& (obstructedBoard[greaterLoc.getColumn() - i][greaterLoc.getRow()].getPiece() != pieceToCheck))
+				{
+					isObstructed = true;
+				}
+			}
+		}
+		
+		return isObstructed;
 	}
 	
 	/*

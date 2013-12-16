@@ -11,95 +11,121 @@ import java.util.ArrayList;
 public class Game 
 {
 	private Chessboard board;
-	private Player player1, player2;
 	private boolean isPlayer1Turn = true;
 	private boolean player1InCheck = false;
 	private boolean player2InCheck = false;
+	private boolean player1Checkmated = false;
+	private boolean player2Checkmated = false;
 	
 	public Game()
 	{
 		board = new Chessboard();
 	}
 	
+	/*
+	 * Sets up the game
+	 */
 	public void setUpGame(String filePath)
 	{
 		FileIO fileRead = new FileIO();
-		player1 = new Player();
-		player2 = new Player();
 		
 		fileRead.startPiecePlacement(board, filePath);
 		playGame();
 	}
 	
+	/*
+	 * Where the game is played
+	 */
 	public void playGame()
+	{
+		while(!player1Checkmated || !player2Checkmated)
+		{
+			takeTurn();
+		}
+		
+		if(player1Checkmated)
+		{
+			System.out.println("Player 1 is in checkmate. Player 2 wins.");
+		}
+		else if(player2Checkmated)
+		{
+			System.out.println("Player 2 is in checkmate. Player 1 wins.");
+		}
+	}
+	
+	/*
+	 * Where the player takes their turn
+	 */
+	public void takeTurn()
 	{
 		Scanner playerInput = new Scanner(System.in);
 		
-		while(true)
+		if(isPlayer1Turn)
 		{
-			//checkmate:
-			//create boolean playerXInCheck
-			//If (playerXInCheck && evaluateForCheck(board))
-			// game over
-			//Author note: This is a really easy way out.. but it doesn't cover everything (what if the king can't move anywhere without getting capped?)
-			//I should design some other way to do this
-			if(isPlayer1Turn)
+			player1InCheck = evaluateLightCheck(board) ? true : false;
+			player1Checkmated = evaluateLightCheckmate(board) ? true : false;
+			
+			if(player1InCheck)
 			{
-				player1InCheck = evaluateLightCheck(board) ? true : false;
-				
-				//Check
-				if(player1InCheck)
-				{
-					System.out.println("Player 1, you're in check.");
-				}
-				
-				board.printBoard();
-				System.out.println("It's player 1's turn. Choose a piece.");
-				String p1PieceSelect = playerInput.nextLine();
-				Location lightPieceSelected = new Location(p1PieceSelect);
-				
-				System.out.println("Enter a location on the board to move the piece.");
-				String p1PieceMove = playerInput.nextLine();
-				Location lightToMove = new Location(p1PieceMove);
-				
-				if(lightPieceSelected != null && lightToMove != null)
-				{
+				System.out.println("Player 1, you're in check.");
+			}
+			
+			board.printBoard();
+			System.out.println("It's player 1's turn. Choose a piece.");
+			String p1PieceSelect = playerInput.nextLine();
+			Location lightPieceSelected = new Location(p1PieceSelect);
+			
+			System.out.println("Enter a location on the board to move the piece.");
+			String p1PieceMove = playerInput.nextLine();
+			Location lightToMove = new Location(p1PieceMove);
+			
+			if(lightPieceSelected != null && lightToMove != null)
+			{
+//				if(board.getPieceAtLocation(lightPieceSelected).isPieceWhite() == isPlayer1Turn)
+//				{
 					if(board.movePiece(lightPieceSelected, lightToMove))
 					{
 						changePlayerTurn();
 					}
-				}
+//				}
 			}
-			else
+		}
+		else
+		{
+			player2InCheck = evaluateDarkCheck(board) ? true : false;
+			player2Checkmated = evaluateDarkCheckmate(board) ? true : false;
+			
+			//Check 
+			if(player2InCheck)
 			{
-				player2InCheck = evaluateDarkCheck(board) ? true : false;
-				
-				//Check 
-				if(player2InCheck)
-				{
-					System.out.println("Player 2, you're in check.");
-				}
-				
-				board.printBoard();
-				System.out.println("It's player 2's turn. Choose a piece.");
-				String p2PieceSelect = playerInput.nextLine();
-				Location darkPieceSelected = new Location(p2PieceSelect);
-				
-				System.out.println("Enter a location on the board to move the piece.");
-				String p2PieceMove = playerInput.nextLine();
-				Location darkToMove = new Location(p2PieceMove);
-				
-				if(darkPieceSelected != null && darkToMove != null)
-				{
+				System.out.println("Player 2, you're in check.");
+			}
+			
+			board.printBoard();
+			System.out.println("It's player 2's turn. Choose a piece.");
+			String p2PieceSelect = playerInput.nextLine();
+			Location darkPieceSelected = new Location(p2PieceSelect);
+			
+			System.out.println("Enter a location on the board to move the piece.");
+			String p2PieceMove = playerInput.nextLine();
+			Location darkToMove = new Location(p2PieceMove);
+			
+			if(darkPieceSelected != null && darkToMove != null)
+			{
+//				if(board.getPieceAtLocation(darkPieceSelected).isPieceWhite() == isPlayer1Turn)
+//				{
 					if(board.movePiece(darkPieceSelected, darkToMove))
 					{
 						changePlayerTurn();
 					}
-				}
+//				}
 			}
 		}
 	}
 	
+	/*
+	 * Checks if light king is in check
+	 */
 	public boolean evaluateLightCheck(Chessboard board)
 	{
 		//Create copies of the board at its current state so that I'm not modifying the game
@@ -134,6 +160,9 @@ public class Game
 		return false;
 	}
 	
+	/*
+	 * Checks if dark king is in check
+	 */
 	public boolean evaluateDarkCheck(Chessboard board)
 	{
 		//Create copies of the board at its current state so that I'm not modifying the game
@@ -168,6 +197,25 @@ public class Game
 		return false;
 	}
 	
+	/*
+	 * Check for light checkmate
+	 */
+	public boolean evaluateLightCheckmate(Chessboard boardToCheck)
+	{
+		return true;
+	}
+	
+	/*
+	 * Check for dark checkmate
+	 */
+	public boolean evaluateDarkCheckmate(Chessboard boardToCheck)
+	{
+		return true;
+	}
+	
+	/*
+	 * Gets the white king from the board
+	 */
 	public Piece getLightKing(Tile[][] board, boolean isWhite)
 	{
 		Piece lightKing = null;
@@ -191,6 +239,9 @@ public class Game
 		return lightKing;
 	}
 	
+	/*
+	 * Gets the dark king from the board
+	 */
 	public Piece getDarkKing(Tile[][] board, boolean isWhite)
 	{
 		Piece darkKing = null;
@@ -214,6 +265,9 @@ public class Game
 		return darkKing;
 	}
 	
+	/*
+	 * Changes the player's turn
+	 */
 	public void changePlayerTurn()
 	{
 		isPlayer1Turn = !isPlayer1Turn;

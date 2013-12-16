@@ -4,10 +4,17 @@ import chess.board.Location;
 
 public class Pawn extends Piece
 {
+	private boolean hasMoved = false;
+	
 	//Make sure that color is being set!
 	public Pawn(String c, boolean b, Location l)
 	{
 		super(c, b, l);
+	}
+	
+	public boolean hasPawnMoved()
+	{
+		return hasMoved;
 	}
 	
 	public boolean isPieceWhite()
@@ -32,8 +39,26 @@ public class Pawn extends Piece
 	
 	public boolean isValidMove(int startCol, int startRow, int endCol, int endRow)
 	{
-		//Figure out pawn movement later
-		return true;
+		if(!hasMoved)
+		{
+			//If first move was successful
+			if((startCol == endCol && Math.abs(startRow - endRow) <= 2) 
+					|| (startCol == endCol && Math.abs(startRow + endRow) <= 2))
+			{
+				hasMoved = true;
+				System.out.println("this pawn has moved: hasMoved = " + hasMoved);
+				return true;
+			}
+			
+			//If first move was not successful
+			return false;
+		}
+		else
+		{
+			//Check for successful subsequent moves
+			return (startCol == endCol && Math.abs(startRow - endRow) <= 1) 
+					|| (startCol == endCol && Math.abs(startRow + endRow) <= 1);
+		}
 	}
 	
 	

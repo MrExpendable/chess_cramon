@@ -42,8 +42,8 @@ public class Pawn extends Piece
 		if(!hasMoved)
 		{
 			//If first move was successful
-			if((startCol == endCol && Math.abs(startRow - endRow) <= 2) 
-					|| (startCol == endCol && Math.abs(startRow + endRow) <= 2))
+			if((startCol == endCol && endRow - startRow <= 2) 
+					|| (startCol == endCol && startRow - endRow <= 2))
 			{
 				hasMoved = true;
 				System.out.println("this pawn has moved: hasMoved = " + hasMoved);

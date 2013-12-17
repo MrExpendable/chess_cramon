@@ -63,21 +63,8 @@ public class Chessboard
 	 * Returns a piece from the board if the location sent in matches the piece's location
 	 */
 	public Piece getPieceAtLocation(Location pieceLoc)
-	{
-		Piece pieceToReturn = null;
-		
-		for(int i = 0; i < BOARD_LENGTH; i++)
-		{
-			for(int j = 0; j < BOARD_WIDTH; j++)
-			{
-				if(board[j][i].getPiece().getLocation() == pieceLoc)
-				{
-					pieceToReturn = board[j][i].getPiece();
-				}
-			}
-		}
-		
-		return pieceToReturn;
+	{	
+		return board[pieceLoc.getRow()][pieceLoc.getColumn()].getPiece();
 	}
 	
 	  /*
@@ -181,42 +168,87 @@ public class Chessboard
 		int finRow = fin.getRow();
 		Tile currentSpace = board[initRow][initCol];
 		
-		//If the space is occupied by a piece(isn't null)
-		if(currentSpace != null && currentSpace.getPiece() != null)
+		//If there's a piece at the end of the path
+		if(board[finRow][finCol].getPiece() != null)
 		{
-			//Get the piece and if the locations sent indicate a valid move
-			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
+			return capturePiece(init, fin);
+		}
+		
+		//If the space is occupied by a piece(isn't null)
+		else 
+		{
+			if(currentSpace != null && currentSpace.getPiece() != null)
 			{
-//				//If no obstructions or piece is a knight
-//				if(currentSpace.getPiece() instanceof Knight || !checkForObstruction(init, fin, board, currentSpace.getPiece()))
-//				{
-					currentSpace.getPiece().setLocation(new Location(finCol, finRow));
-					
-					//Move the piece and set the old space to null
-					board[finRow][finCol] = board[initRow][initCol];
-					board[initRow][initCol] = new Tile();
-					
-					return true;
-//				}
-//				else
-//				{
-//					System.out.println("There's a piece in the way, try a different move.\n");
-//					return false;
-//				}
+				//Get the piece and if the locations sent indicate a valid move
+				if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
+				{
+//					//If no obstructions or piece is a knight
+//					if(currentSpace.getPiece() instanceof Knight || !checkForObstruction(init, fin, board, currentSpace.getPiece()))
+//					{
+						currentSpace.getPiece().setLocation(new Location(finCol, finRow));
+						
+						//Move the piece and set the old space to null
+						board[finRow][finCol] = board[initRow][initCol];
+						board[initRow][initCol] = new Tile();
+						
+						return true;
+//					}
+//					else
+//					{
+//						System.out.println("There's a piece in the way, try a different move.\n");
+//						return false;
+//					}
+				}
+				else
+				{
+					System.out.println("Move is invalid, try again.\n");
+					return false;
+				}
 			}
 			else
 			{
-				System.out.println("Move is invalid, try again.\n");
+				System.out.println("No piece here.\n");
+				return false;
+			}
+		}
+	}
+	
+	/*
+	 * If trying to move a piece to a space that is currently occupied, assume the player is attempting to capture
+	 * Run this method instead of movePiece so as to check for validity of capture
+	 */
+	public boolean capturePiece(Location init, Location fin)
+	{	
+		int initCol = init.getColumn();
+		int initRow = init.getRow();
+		int finCol = fin.getColumn();
+		int finRow = fin.getRow();
+		Tile currentSpace = board[initRow][initCol];
+		
+		//If the piece at the end isn't the same color
+		if(currentSpace.getPiece().isPieceWhite() != board[finRow][finCol].getPiece().isPieceWhite())
+		{
+			//If it's a valid move
+			if(currentSpace.getPiece().isValidMove(initCol, initRow, finCol, finRow))
+			{
+				board[finRow][finCol] = board[initRow][initCol];
+				board[initRow][initCol] = new Tile();
+				
+				return true;
+			}
+			else
+			{
+				System.out.println("That capture move was invalid.\n");
 				return false;
 			}
 		}
 		else
 		{
-			System.out.println("No piece here.\n");
+			System.out.println("You can't capture your own piece.\n");
 			return false;
 		}
 	}
-	
+
 	/*
 	 * Checks for obstructions along a piece's move path
 	 */
@@ -247,8 +279,8 @@ public class Chessboard
 		{
 			for(int i = 1; i < colDif; i++)
 			{
-				if(obstructedBoard[greaterLoc.getColumn() - i][greaterLoc.getRow()].getPiece() != null
-						&& obstructedBoard[greaterLoc.getColumn() - i][greaterLoc.getRow()].getPiece() != pieceToCheck)
+				if(obstructedBoard[greaterLoc.getRow()][greaterLoc.getColumn() - i].getPiece() != null
+						&& obstructedBoard[greaterLoc.getRow()][greaterLoc.getColumn() - i].getPiece() != pieceToCheck)
 				{
 					isObstructed = true;
 				}
@@ -259,8 +291,8 @@ public class Chessboard
 		{
 			for(int i = 1; i < rowDif; i++)
 			{
-				if((obstructedBoard[greaterLoc.getColumn()][greaterLoc.getRow() - i].getPiece() != null)
-						&& (obstructedBoard[greaterLoc.getColumn()][greaterLoc.getRow() - i].getPiece() != pieceToCheck))
+				if((obstructedBoard[greaterLoc.getRow() - i][greaterLoc.getColumn()].getPiece() != null)
+						&& (obstructedBoard[greaterLoc.getRow() - i][greaterLoc.getColumn()].getPiece() != pieceToCheck))
 				{
 					isObstructed = true;
 				}
